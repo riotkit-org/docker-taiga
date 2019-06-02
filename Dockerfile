@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.6-slim
 MAINTAINER Benjamin Hutchins <ben@hutchins.co>
 MAINTAINER Riotkit <riotkit_org@riseup.net>
 
@@ -40,7 +40,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # clean up
 RUN set -x \
     && apt-get update \
-    && apt-get install -y --no-install-recommends locales gettext ca-certificates nginx libcap2-bin supervisor \
+    && apt-get install -y --no-install-recommends locales gettext ca-certificates nginx libcap2-bin supervisor wget curl \
     && apt-get clean \
     \
     && addgroup --gid $TAIGA_GID taiga \
