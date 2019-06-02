@@ -1,57 +1,35 @@
 version: '2'
 
+volumes:
+    postgres:
+    media:
+
 services:
-  taiga:
-    build: .
-    ports:
-      - 80:80
-      # - 443:443 # To enable SSL, uncomment this line
-    depends_on:
-      - postgres
-    volumes:
-      # I recommend specifying a volume that maps to taiga's media,
-      # this way uploaded files are not lost during upgrades of the taiga image
-      - ./media:/usr/src/taiga-back/media
+    taiga:
+        image: quay.io/riotkit/taiga:${VERSION}
+        ports:
+            - 80:80
+            # SSL support
+            # - 443:443
+        depends_on:
+            - postgres
+        volumes:
+            # all data placed in volumes are kept between container updates/deletion/recreation
+            - media:/usr/src/taiga-back/media
 
-      # If you'd like to store the configuration outside of the container,
-      # uncomment this volume. This allows for easy changes to the configuration.
-      # - ./conf/taiga:/taiga
+            # SSL support inside of the taiga container
+            # - ./ssl.crt:/etc/nginx/ssl/ssl.crt:ro
+            # - ./ssl.key:/etc/nginx/ssl/ssl.key:ro
+        env_file:
+            - .env
 
-      # - ./ssl.crt:/etc/nginx/ssl/ssl.crt:ro # To enable SSL, uncomment this line
-      # - ./ssl.key:/etc/nginx/ssl/ssl.key:ro # To enable SSL, uncomment this line
-    environment:
-      # Your hostname (REQUIRED)
-      TAIGA_HOSTNAME: localhost
-
-      # Database settings
-      # To use an external database, simply update these and remove the postgres
-      # service from this docker-compose.yml file
-      TAIGA_DB_NAME: taigadb
-      TAIGA_DB_HOST: postgres
-      TAIGA_DB_USER: postgres
-      TAIGA_DB_PASSWORD: password
-      TAIGA_SLEEP: 15 # when the db comes up from docker, it is usually too quick
-
-      # TAIGA_SSL: True # To enable SSL, uncomment this line
-      # TAIGA_SSL_BY_REVERSE_PROXY: True # To enable SSL, handling by a reverse proxy, uncomment this
-
-      # To use an external SMTP for emails, fill in these values:
-      # TAIGA_ENABLE_EMAIL: True
-      # TAIGA_EMAIL_FROM: no-reply@taiga.mycompany.net
-      # TAIGA_EMAIL_USE_TLS: True
-      # TAIGA_EMAIL_HOST: smtp.google.com
-      # TAIGA_EMAIL_PORT: 587
-      # TAIGA_EMAIL_USER: me@gmail.com
-      # TAIGA_EMAIL_PASS: super-secure-pass phrase thing!
-
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_DB: taigadb
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
-    ports:
-      - 5432
-    volumes:
-      # this helps prevent your postgres data from deleted
-      - ./pgdata:/var/lib/postgresql/data
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_DB: ${TAIGA_DB_NAME}
+            POSTGRES_PASSWORD: ${TAIGA_DB_PASSWORD}
+            POSTGRES_USER: ${TAIGA_DB_USER}
+        ports:
+            - 5432
+        volumes:
+            - postgres:/var/lib/postgresql/data
