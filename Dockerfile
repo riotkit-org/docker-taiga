@@ -3,8 +3,8 @@ MAINTAINER Benjamin Hutchins <ben@hutchins.co>
 MAINTAINER Riotkit <riotkit_org@riseup.net>
 
 # build-time arguments, use them in docker build with --build-arg switch to build different version
-ARG TAIGA_BACK_VERSION=4.2.5
-ARG TAIGA_FRONT_VERSION=4.2.5-stable
+ARG TAIGA_BACK_VERSION=4.2.7
+ARG TAIGA_FRONT_VERSION=4.2.7-stable
 ARG TAIGA_UID=1000
 ARG TAIGA_GID=1000
 

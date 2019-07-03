@@ -1,6 +1,6 @@
 SUDO=sudo
 IMAGE=quay.io/riotkit/taiga
-VERSION=4.2.5
+VERSION=4.2.7
 VERSION_FRONT=${VERSION}-stable
 ENV_NAME=taiga
 COMPOSE_CMD=docker-compose -p ${ENV_NAME}
