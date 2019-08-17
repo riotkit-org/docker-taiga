@@ -1,7 +1,7 @@
 {
     "api": "{{ TAIGA_SCHEME }}://{{ TAIGA_HOSTNAME }}/api/v1/",
     "eventsUrl": null,
-    "debug": true,
+    "debug": {{ DEBUG.lower() }},
     "debugInfo": false,
     "defaultLanguage": "{{ TAIGA_DEFAULT_LOCALE }}",
     "publicRegisterEnabled": false,

@@ -32,7 +32,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_EVENTS_HOST=events \
     TAIGA_REDIRECT_TO_SSL=false \
     TAIGA_HOSTNAME=localhost \
-    TAIGA_ENABLE_SSL=false
+    TAIGA_ENABLE_SSL=false \
+    DEBUG=false
 
 # install dependencies
 # download and unpack applications in selected versions
