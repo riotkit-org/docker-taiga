@@ -70,6 +70,10 @@ TAIGA_HOSTNAME=example.riotkit.org
 TAIGA_ENABLE_SSL=true
 ```
 
+#### Configuring LDAP
+
+LDAP support can optionally be enabled by setting the `TAIGA_LDAP` environment variable to `true`. See the Dockerfile for a list of the environment variables used for configuring LDAP and their descriptions.
+
 #### Building images
 
 ```

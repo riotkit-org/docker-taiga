@@ -33,6 +33,32 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_REDIRECT_TO_SSL=false \
     TAIGA_HOSTNAME=localhost \
     TAIGA_ENABLE_SSL=false \
+    # Set to `true` to enable the LDAP authentication.
+    TAIGA_LDAP=false \
+    # The LDAP server URL.
+    LDAP_SERVER="" \
+    # The port to connect to the LDAP server on.
+    LDAP_PORT=0 \
+    # Set to `true` to enable StartTLS when connecting to the server.
+    LDAP_START_TLS="false" \
+    # The DN to bind to the LDAP server with. If left blank the client will attempt to bind anonymously.
+    LDAP_BIND_DN="" \
+    # The password for the bind DN.
+    LDAP_BIND_PASSWORD="" \
+    # The root of the LDAP structure in which to search for user accounts.
+    LDAP_SEARCH_BASE="" \
+    # Additional filter added to the user account query.
+    LDAP_SEARCH_FILTER_ADDITIONAL="" \
+    # The LDAP attribute that will be used for the account's Taiga username.
+    LDAP_USERNAME_ATTRIBUTE="uid" \
+    # The LDAP attribute that will be used for the account's Email address.
+    LDAP_EMAIL_ATTRIBUTE="mail" \
+    # The LDAP attribute that will be used for the account's full name.
+    LDAP_FULL_NAME_ATTRIBUTE="cn" \
+    # The fallback authentication method to use if LDAP fails. This will allows users to login with either an LDAP account or a local account. Set to a blank string to prevent logging in with anything other than LDAP.
+    LDAP_FALLBACK="normal" \
+    #  Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
+    LDAP_SAVE_LOGIN_PASSWORD="true" \
     DEBUG=false
 
 # install dependencies
@@ -64,12 +90,16 @@ RUN set -x \
     && mkdir -p /taiga /usr/src/taiga-front-dist/dist/js/ \
     && pip install --no-cache-dir -r /usr/src/taiga-back/requirements.txt \
     && pip install --no-cache-dir j2cli \
+    && pip install --no-cache-dir taiga-contrib-ldap-auth-ext \
     && echo "LANG=en_US.UTF-8" > /etc/default/locale \
     && echo "LC_TYPE=en_US.UTF-8" > /etc/default/locale \
     && echo "LC_MESSAGES=POSIX" >> /etc/default/locale \
     && echo "LANGUAGE=en" >> /etc/default/locale \
     && locale-gen en_US.UTF-8 && dpkg-reconfigure locales \
     && locale -a
+
+# Configure SSL ( Required for the LDAP plugin )
+RUN echo "CipherString=DEFAULT@SECLEVEL=1" >> /etc/ssl/openssl.cnf
 
 # copy configs and scripts
 COPY conf /opt/taiga-conf
