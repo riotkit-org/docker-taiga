@@ -86,3 +86,7 @@ make build VERSION=4.2.5 VERSION_FRONT=4.2.4-stable
 # will build and tag under some-image:4.2.5
 make build VERSION=4.2.5 IMAGE=some-image
 ```
+
+#### Troubleshooting
+
+If you have trouble logging in or editing user settings it may be related to a failure sending emails. This will be accompanied by a `[CRITICAL] WORKER TIMEOUT` error in the logs. Try validating your email configuration or setting `TAIGA_ENABLE_EMAIL` to `false` to see if that fixes the issue.
