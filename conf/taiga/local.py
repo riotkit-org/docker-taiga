@@ -9,7 +9,8 @@
 # https://github.com/taigaio/taiga-back/blob/master/settings/common.py
 
 from .docker import *
+import os
 
 PUBLIC_REGISTER_ENABLED = False
-DEBUG = True
-TEMPLATE_DEBUG = False
+DEBUG = os.getenv('DEBUG', '').lower() == 'true'
+TEMPLATE_DEBUG = os.getenv('DEBUG', '').lower() == 'true'
