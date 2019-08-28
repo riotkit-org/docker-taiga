@@ -52,7 +52,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_REDIRECT_TO_SSL=false \
     # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
     TAIGA_HOSTNAME=localhost \
-    #
+    # Enable SSL
     TAIGA_ENABLE_SSL=false \
     # Set to `true` to enable the LDAP authentication.
     TAIGA_LDAP=false \
