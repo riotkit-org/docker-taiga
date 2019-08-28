@@ -5,33 +5,54 @@ MAINTAINER Riotkit <riotkit_org@riseup.net>
 # build-time arguments, use them in docker build with --build-arg switch to build different version
 ARG TAIGA_BACK_VERSION=4.2.7
 ARG TAIGA_FRONT_VERSION=4.2.7-stable
-ARG TAIGA_UID=1000
-ARG TAIGA_GID=1000
 
 # runtime arguments
 ENV DEBIAN_FRONTEND=noninteractive \
+    # Set to "c" for English, pl-PL.UTF-8 for Polish etc.
     LANG=c \
+    # Set to "c" for English, pl-PL.UTF-8 for Polish etc.
     LC_TYPE=en_US.UTF-8 \
+    # Enable mail server
     TAIGA_ENABLE_EMAIL=False \
+    # Use TLS encryption when sending mails
     TAIGA_EMAIL_USE_TLS=true\
+    # SMTP server host
     TAIGA_EMAIL_HOST=smtp \
+    # SMTP server port
     TAIGA_EMAIL_PORT=25 \
+    # SMTP user login
     TAIGA_EMAIL_USER=taiga@riotkit.org \
+    # SMTP user password
     TAIGA_EMAIL_PASS=some-password \
+    # SMTP "From" header value
     TAIGA_EMAIL_FROM=taiga@localhost \
+    # Queue connection string
     TAIGA_BROKER_URL=amqp://guest:guest@rabbit:5672 \
+    # Redis url
     TAIGA_REDIS_URL="redis://redis:6379/0" \
+    # Default locale ex. en, pl
     TAIGA_DEFAULT_LOCALE=en \
+    # !!! Secret key, please change it with your own
     TAIGA_SECRET_KEY=REPLACE-ME-j1598u1J^U*(y251u98u51u5981urf98u2o5uvoiiuzhlit3) \
+    # PostgreSQL database name
     TAIGA_DB_NAME=taiga \
+    # PostgreSQL database hostname
     TAIGA_DB_HOST=postgres \
+    # PostgreSQL database user login
     TAIGA_DB_USER=taiga \
+    # PostgreSQL database user password
     TAIGA_DB_PASSWORD= \
+    # Protocol http or https your instance will listen on
     TAIGA_SCHEME=http \
+    # Enable or disable events?
     TAIGA_ENABLE_EVENTS=false \
+    # Hostname for events server
     TAIGA_EVENTS_HOST=events \
+    # Should Taiga automatically redirect to SSL version of Taiga?
     TAIGA_REDIRECT_TO_SSL=false \
+    # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
     TAIGA_HOSTNAME=localhost \
+    #
     TAIGA_ENABLE_SSL=false \
     # Set to `true` to enable the LDAP authentication.
     TAIGA_LDAP=false \
@@ -59,7 +80,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LDAP_FALLBACK="normal" \
     #  Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
     LDAP_SAVE_LOGIN_PASSWORD="true" \
-    DEBUG=false
+    DEBUG=false \
+    TAIGA_UID=1000 \
+    TAIGA_GID=1000
 
 # install dependencies
 # download and unpack applications in selected versions
@@ -114,8 +137,7 @@ RUN cp /opt/taiga-conf/taiga/local.py /usr/src/taiga-back/settings/local.py \
     \
     && cd /usr/src/taiga-back/ && python manage.py collectstatic --noinput \
     && mkdir -p /var/log/nginx /var/lib/nginx \
-    && touch /var/run/nginx.pid \
-    && chown taiga:taiga /usr/src /var/log/nginx/ /var/run/nginx.pid /var/lib/nginx -R
+    && touch /var/run/nginx.pid
 
 EXPOSE 80 443
 VOLUME /usr/src/taiga-back/media
