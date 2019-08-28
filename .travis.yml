@@ -1,0 +1,17 @@
+language: python
+python: 3.6
+services:
+    - docker
+
+before_script:
+    # dependencies
+    - pip install j2cli requests
+    - wget https://github.com/riotkit-org/ci-utils/archive/v1.2.3.zip -O /tmp/ci-utils.zip
+    - curl "https://raw.githubusercontent.com/riotkit-org/ci-utils/master/ci-integration/travis.sh" -s | bash
+
+    # authorization
+    - echo "$DOCKER_PASSWORD" | sudo docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$QUAY_PASSWORD" | sudo docker login -u "$QUAY_USERNAME" --password-stdin quay.io
+
+script:
+    - make all

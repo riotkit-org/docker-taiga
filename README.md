@@ -148,7 +148,7 @@ List of all environment variables that could be used.
 # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
 - TAIGA_HOSTNAME # (default: localhost)
 
-
+# Enable SSL
 - TAIGA_ENABLE_SSL # (default: false)
 
 # Set to `true` to enable the LDAP authentication.
