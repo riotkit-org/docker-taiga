@@ -14,4 +14,4 @@ before_script:
     - echo "$QUAY_PASSWORD" | sudo docker login -u "$QUAY_USERNAME" --password-stdin quay.io
 
 script:
-    - make all
+    - make ci@all
