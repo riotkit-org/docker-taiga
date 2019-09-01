@@ -10,6 +10,6 @@
     "privacyPolicyUrl": null,
     "termsOfServiceUrl": null,
     "maxUploadFileSize": null,
-    {% if TAIGA_LDAP %}"loginFormType": "ldap",{% endif %}
+    {% if TAIGA_LDAP.lower() == 'true' %}"loginFormType": "ldap",{% endif %}
     "contribPlugins": []
 }
