@@ -78,8 +78,36 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LDAP_FULL_NAME_ATTRIBUTE="cn" \
     # The fallback authentication method to use if LDAP fails. This will allows users to login with either an LDAP account or a local account. Set to a blank string to prevent logging in with anything other than LDAP.
     LDAP_FALLBACK="normal" \
-    #  Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
+    # Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
     LDAP_SAVE_LOGIN_PASSWORD="true" \
+    # Enable the GitHub project importer
+    TAIGA_IMPORTER_GITHUB_ENABLED="false" \
+    # GitHub importer client ID
+    TAIGA_IMPORTER_GITHUB_CLIENT_ID="" \
+    # GitHub importer client secret
+    TAIGA_IMPORTER_GITHUB_CLIENT_SECRET="" \
+    # Enable the Trello project importer
+    TAIGA_IMPORTER_TRELLO_ENABLED="false" \
+    # Trello importer api key
+    TAIGA_IMPORTER_TRELLO_API_KEY="" \
+    # Trello importer secret key
+    TAIGA_IMPORTER_TRELLO_SECRET_KEY="" \
+    # Enable the JIRA project importer
+    TAIGA_IMPORTER_JIRA_ENABLED="false" \
+    # JIRA importer consumer key
+    TAIGA_IMPORTER_JIRA_CONSUMER_KEY="" \
+    # JIRA importer cert
+    TAIGA_IMPORTER_JIRA_CERT="" \
+    # JIRA importer public cert
+    TAIGA_IMPORTER_JIRA_PUB_CERT="" \
+    # Enable the Asana project importer
+    TAIGA_IMPORTER_ASANA_ENABLED="false" \
+    # Override callback URL for Asana importer. Will be automatically set based on Taiga URL if left blank.
+    TAIGA_IMPORTER_ASANA_CALLBACK_URL="" \
+    # Asana importer app ID
+    TAIGA_IMPORTER_ASANA_APP_ID="" \
+    # Asana importer app secret
+    TAIGA_IMPORTER_ASANA_APP_SECRET="" \
     DEBUG=false \
     TAIGA_UID=1000 \
     TAIGA_GID=1000
