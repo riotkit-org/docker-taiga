@@ -12,7 +12,7 @@ correct_permissions () {
 prepare_configs() {
     echo " >> Preparing configuration files..."
     echo " HINT: Add your files into /etc/nginx/extensions.d to include them in NGINX configuration"
-    j2 /opt/taiga-conf/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf
+    j2 /opt/taiga-conf/nginx/nginx.conf.j2 >  /etc/nginx/nginx.conf
     j2 /opt/taiga-conf/taiga/conf.json.j2 > /usr/src/taiga-front-dist/dist/conf.json
 }
 
