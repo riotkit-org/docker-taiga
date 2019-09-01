@@ -1,5 +1,14 @@
 #!/bin/bash
 
+correct_permissions () {
+    echo " >> Setting user id and group id"
+    usermod -u "$DJANGO_USER_ID" django
+    groupmod -g "$DJANGO_GROUP_ID" django
+
+    echo " >> Correcting permissions"
+    chown taiga:taiga /usr/src /var/log/nginx/ /var/run/nginx.pid /var/lib/nginx /usr/src/taiga-back/media -R
+}
+
 prepare_configs() {
     echo " >> Preparing configuration files..."
     echo " HINT: Add your files into /etc/nginx/extensions.d to include them in NGINX configuration"
@@ -49,6 +58,7 @@ migrate() {
     fi
 }
 
+correct_permissions
 prepare_configs
 migrate
 
