@@ -11,5 +11,12 @@
     "termsOfServiceUrl": null,
     "maxUploadFileSize": null,
     {% if TAIGA_LDAP.lower() == 'true' %}"loginFormType": "ldap",{% endif %}
+    {% set comma = joiner(",") %}
+    "importers": [
+        {% if TAIGA_IMPORTER_GITHUB_ENABLED.lower() == 'true' %} {{ comma() }} "github" {% endif %}
+        {% if TAIGA_IMPORTER_TRELLO_ENABLED.lower() == 'true' %} {{ comma() }} "trello" {% endif %}
+        {% if TAIGA_IMPORTER_JIRA_ENABLED.lower() == 'true' %} {{ comma() }} "jira" {% endif %}
+        {% if TAIGA_IMPORTER_ASANA_ENABLED.lower() == 'true' %} {{ comma() }} "asana" {% endif %}
+    ],
     "contribPlugins": []
 }

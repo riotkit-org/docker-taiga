@@ -83,3 +83,32 @@ LDAP_SAVE_LOGIN_PASSWORD = os.getenv('LDAP_SAVE_LOGIN_PASSWORD', 'true').lower()
 # Fallback on normal authentication method if LDAP auth fails. Set this to ''
 # to disable fallback.
 LDAP_FALLBACK = os.getenv('LDAP_FALLBACK', 'normal')
+
+IMPORTERS["github"] = {
+    "active": os.getenv('TAIGA_IMPORTER_GITHUB_ENABLED', '').lower() == 'true',
+    "client_id": os.getenv('TAIGA_IMPORTER_GITHUB_CLIENT_ID', ''),
+    "client_secret": os.getenv('TAIGA_IMPORTER_GITHUB_CLIENT_SECRET', '')
+}
+
+IMPORTERS["trello"] = {
+    "active": os.getenv('TAIGA_IMPORTER_TRELLO_ENABLED', '').lower() == 'true',
+    "api_key": os.getenv('TAIGA_IMPORTER_TRELLO_API_KEY', ''),
+    "secret_key": os.getenv('TAIGA_IMPORTER_TRELLO_SECRET_KEY', '')
+}
+
+IMPORTERS["jira"] = {
+    "active": os.getenv('TAIGA_IMPORTER_JIRA_ENABLED', '').lower() == 'true',
+    "consumer_key": os.getenv('TAIGA_IMPORTER_JIRA_CONSUMER_KEY', ''),
+    "cert": os.getenv('TAIGA_IMPORTER_JIRA_CERT', ''),
+    "pub_cert": os.getenv('TAIGA_IMPORTER_JIRA_PUB_CERT', '')
+}
+
+default_asana_url = "{}://{}/project/new/import/asana".format(SITES["front"]["scheme"],
+                                                              SITES["front"]["domain"])
+
+IMPORTERS["asana"] = {
+    "active": os.getenv('TAIGA_IMPORTER_ASANA_ENABLED', '').lower() == 'true',
+    "callback_url": os.getenv('TAIGA_IMPORTER_ASANA_CALLBACK_URL') or default_asana_url,
+    "app_id": os.getenv('TAIGA_IMPORTER_ASANA_APP_ID', ''),
+    "app_secret": os.getenv('TAIGA_IMPORTER_ASANA_APP_SECRET', '')
+}
