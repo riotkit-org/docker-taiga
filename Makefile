@@ -3,8 +3,7 @@
 
 SUDO=sudo
 IMAGE=quay.io/riotkit/taiga
-VERSION=4.2.7
-VERSION_FRONT=${VERSION}-stable
+VERSION_FRONT_SUFFIX=-stable
 ENV_NAME=taiga
 COMPOSE_CMD=docker-compose -p ${ENV_NAME}
 SHELL=/bin/bash
@@ -15,10 +14,10 @@ help:
 
 ### ENVIRONMENT
 
-start: _prepare_env ## Start the environment
+start: _prepare_env ## Start the environment (params: VERSION)
 	${SUDO} bash -c "VERSION=${VERSION} ${COMPOSE_CMD} up"
 
-start_detached: _prepare_env ## Start the environment in the background
+start_detached: _prepare_env ## Start the environment in the background (params: VERSION)
 	${SUDO} bash -c "VERSION=${VERSION} ${COMPOSE_CMD} up -d"
 
 shell: _prepare_env ## Get a shell inside of the container
@@ -34,13 +33,15 @@ _prepare_env:
 
 ### CI
 
-ci@build: ## Build the image
+ci@build: ## Build the image (params: VERSION, VERSION_FRONT)
 	${SUDO} docker build . -f Dockerfile \
 		--build-arg TAIGA_BACK_VERSION=${VERSION} \
-		--build-arg TAIGA_FRONT_VERSION=${VERSION_FRONT} \
+		--build-arg TAIGA_FRONT_VERSION=${VERSION_FRONT}${VERSION_FRONT_SUFFIX} \
 		-t quay.io/riotkit/taiga:${VERSION}
 
-ci@push: ## Push the image to the registry
+ci@push: ## Push the image to the registry (params: VERSION)
+	${SUDO} docker tag quay.io/riotkit/taiga:${VERSION} quay.io/riotkit/taiga:${VERSION}-$$(date '+%Y-%m-%d')
+	${SUDO} docker push quay.io/riotkit/taiga:${VERSION}-$$(date '+%Y-%m-%d')
 	${SUDO} docker push quay.io/riotkit/taiga:${VERSION}
 
 ### COMMON AUTOMATION
