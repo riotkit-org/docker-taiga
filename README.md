@@ -36,7 +36,7 @@ Taiga is a project management platform for startups and agile developers & desig
 The container is placed at `quay.io/riotkit/taiga`. There is no `latest` tag, we do not like it, it's an unstable, dangerous idea to use latest.
 Instead of `latest` we tag each Taiga stable release with the release number ex. `quay.io/riotkit/taiga:4.2.12`
 
-See the list of available tags there: https://quay.io/repository/riotkit/taiga?tab=tags and check out the configuration reference.
+See the list of available tags there: https://quay.io/repository/riotkit/taiga?tab=tags and check out the [configuration reference](#configuration-reference).
 
 ```bash
 # NOTICE 1: Check "Configuration reference" section of this README for list of available environment variables
