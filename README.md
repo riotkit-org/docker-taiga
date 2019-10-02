@@ -1,5 +1,5 @@
-Taiga Dockerized environment
-============================
+Taiga Dockerized environment (production-ready)
+===============================================
 
 Complete environment to run self-hosted Taiga.io project in an elegant
 way.
