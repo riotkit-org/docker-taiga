@@ -9,17 +9,11 @@ services:
         image: quay.io/riotkit/taiga:${VERSION}
         ports:
             - 80:80
-            # SSL support
-            # - 443:443
         depends_on:
             - postgres
         volumes:
             # all data placed in volumes are kept between container updates/deletion/recreation
             - media:/usr/src/taiga-back/media
-
-            # SSL support inside of the taiga container
-            # - ./ssl.crt:/etc/nginx/ssl/ssl.crt:ro
-            # - ./ssl.key:/etc/nginx/ssl/ssl.key:ro
         env_file:
             - .env
 
