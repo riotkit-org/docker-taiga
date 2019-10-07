@@ -69,28 +69,6 @@ make start
 # tadam...
 ```
 
-#### Configuring SSL directly in Taiga
-
-There are two ways of configuring SSL, the suggested way is that you set
-up a webserver and configure SSL there - you can use Letsencrypt or
-other certificate.
-
-Second way is to set up SSL directly in the Taiga container, we will
-focus on this.
-
-You need to add your certificates to the container into
-`/etc/nginx/ssl/ssl.crt` and `/etc/nginx/ssl/ssl.key` by building a
-docker image, using a volume mount or at least `docker cp`.
-
-Then make sure to configure environment variables on Taiga container:
-
-```bash
-TAIGA_SCHEME=https
-TAIGA_REDIRECT_TO_SSL=true
-TAIGA_HOSTNAME=example.riotkit.org
-TAIGA_ENABLE_SSL=true
-```
-
 #### Configuring LDAP
 
 LDAP support can optionally be enabled by setting the `TAIGA_LDAP` environment variable to `true`. See the Dockerfile for a list of the environment variables used for configuring LDAP and their descriptions.
@@ -168,9 +146,6 @@ List of all environment variables that could be used.
 
 # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
 - TAIGA_HOSTNAME # (default: localhost)
-
-# Enable SSL
-- TAIGA_ENABLE_SSL # (default: false)
 
 # Set to `true` to enable the LDAP authentication.
 - TAIGA_LDAP # (default: false)
