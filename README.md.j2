@@ -31,7 +31,28 @@ Taiga is a project management platform for startups and agile developers & desig
 
 > [taiga.io](https://taiga.io)
 
-#### Quick start
+#### Running the container
+
+The container is placed at `quay.io/riotkit/taiga`. There is no `latest` tag, we do not like it, it's an unstable, dangerous idea to use latest.
+Instead of `latest` we tag each Taiga stable release with the release number ex. `quay.io/riotkit/taiga:4.2.12`
+
+See the list of available tags there: https://quay.io/repository/riotkit/taiga?tab=tags and check out the configuration reference.
+
+```bash
+# NOTICE 1: Check "Configuration reference" section of this README for list of available environment variables
+# NOTICE 2: You need a working PostgreSQL server
+# NOTICE 3: Use volumes to keep your uploads, else they will disappear on container recreation
+
+sudo docker run \
+    -v $(pwd)/media:/usr/src/taiga-back/media \
+    -p 80:80 \
+    -e TAIGA_DB_HOST=some-db-host \
+    -e TAIGA_DB_USER=some-user \
+    -e TAIGA_DB_PASSWORD=some-password \
+    quay.io/riotkit/taiga:4.2.12
+```
+
+#### Quick start with Docker-Compose
 
 ```
 # get the sources
@@ -46,28 +67,6 @@ edit .env
 make start
 
 # tadam...
-```
-
-#### Configuring SSL directly in Taiga
-
-There are two ways of configuring SSL, the suggested way is that you set
-up a webserver and configure SSL there - you can use Letsencrypt or
-other certificate.
-
-Second way is to set up SSL directly in the Taiga container, we will
-focus on this.
-
-You need to add your certificates to the container into
-`/etc/nginx/ssl/ssl.crt` and `/etc/nginx/ssl/ssl.key` by building a
-docker image, using a volume mount or at least `docker cp`.
-
-Then make sure to configure environment variables on Taiga container:
-
-```bash
-TAIGA_SCHEME=https
-TAIGA_REDIRECT_TO_SSL=true
-TAIGA_HOSTNAME=example.riotkit.org
-TAIGA_ENABLE_SSL=true
 ```
 
 #### Configuring LDAP

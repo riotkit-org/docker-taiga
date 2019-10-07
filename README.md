@@ -1,5 +1,5 @@
-Taiga Dockerized environment
-============================
+Taiga Dockerized environment (production-ready)
+===============================================
 
 Complete environment to run self-hosted Taiga.io project in an elegant
 way.
@@ -31,7 +31,28 @@ Taiga is a project management platform for startups and agile developers & desig
 
 > [taiga.io](https://taiga.io)
 
-#### Quick start
+#### Running the container
+
+The container is placed at `quay.io/riotkit/taiga`. There is no `latest` tag, we do not like it, it's an unstable, dangerous idea to use latest.
+Instead of `latest` we tag each Taiga stable release with the release number ex. `quay.io/riotkit/taiga:4.2.12`
+
+See the list of available tags there: https://quay.io/repository/riotkit/taiga?tab=tags and check out the [configuration reference](#configuration-reference).
+
+```bash
+# NOTICE 1: Check "Configuration reference" section of this README for list of available environment variables
+# NOTICE 2: You need a working PostgreSQL server
+# NOTICE 3: Use volumes to keep your uploads, else they will disappear on container recreation
+
+sudo docker run \
+    -v $(pwd)/media:/usr/src/taiga-back/media \
+    -p 80:80 \
+    -e TAIGA_DB_HOST=some-db-host \
+    -e TAIGA_DB_USER=some-user \
+    -e TAIGA_DB_PASSWORD=some-password \
+    quay.io/riotkit/taiga:4.2.12
+```
+
+#### Quick start with Docker-Compose
 
 ```
 # get the sources
@@ -46,28 +67,6 @@ edit .env
 make start
 
 # tadam...
-```
-
-#### Configuring SSL directly in Taiga
-
-There are two ways of configuring SSL, the suggested way is that you set
-up a webserver and configure SSL there - you can use Letsencrypt or
-other certificate.
-
-Second way is to set up SSL directly in the Taiga container, we will
-focus on this.
-
-You need to add your certificates to the container into
-`/etc/nginx/ssl/ssl.crt` and `/etc/nginx/ssl/ssl.key` by building a
-docker image, using a volume mount or at least `docker cp`.
-
-Then make sure to configure environment variables on Taiga container:
-
-```bash
-TAIGA_SCHEME=https
-TAIGA_REDIRECT_TO_SSL=true
-TAIGA_HOSTNAME=example.riotkit.org
-TAIGA_ENABLE_SSL=true
 ```
 
 #### Configuring LDAP
@@ -148,9 +147,6 @@ List of all environment variables that could be used.
 # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
 - TAIGA_HOSTNAME # (default: localhost)
 
-# Enable SSL
-- TAIGA_ENABLE_SSL # (default: false)
-
 # Set to `true` to enable the LDAP authentication.
 - TAIGA_LDAP # (default: false)
 
@@ -189,6 +185,48 @@ List of all environment variables that could be used.
 
 # Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
 - LDAP_SAVE_LOGIN_PASSWORD # (default: "true")
+
+# Enable the GitHub project importer
+- TAIGA_IMPORTER_GITHUB_ENABLED # (default: "false")
+
+# GitHub importer client ID
+- TAIGA_IMPORTER_GITHUB_CLIENT_ID # (default: "")
+
+# GitHub importer client secret
+- TAIGA_IMPORTER_GITHUB_CLIENT_SECRET # (default: "")
+
+# Enable the Trello project importer
+- TAIGA_IMPORTER_TRELLO_ENABLED # (default: "false")
+
+# Trello importer api key
+- TAIGA_IMPORTER_TRELLO_API_KEY # (default: "")
+
+# Trello importer secret key
+- TAIGA_IMPORTER_TRELLO_SECRET_KEY # (default: "")
+
+# Enable the JIRA project importer
+- TAIGA_IMPORTER_JIRA_ENABLED # (default: "false")
+
+# JIRA importer consumer key
+- TAIGA_IMPORTER_JIRA_CONSUMER_KEY # (default: "")
+
+# JIRA importer cert
+- TAIGA_IMPORTER_JIRA_CERT # (default: "")
+
+# JIRA importer public cert
+- TAIGA_IMPORTER_JIRA_PUB_CERT # (default: "")
+
+# Enable the Asana project importer
+- TAIGA_IMPORTER_ASANA_ENABLED # (default: "false")
+
+# Override callback URL for Asana importer. Will be automatically set based on Taiga URL if left blank.
+- TAIGA_IMPORTER_ASANA_CALLBACK_URL # (default: "")
+
+# Asana importer app ID
+- TAIGA_IMPORTER_ASANA_APP_ID # (default: "")
+
+# Asana importer app secret
+- TAIGA_IMPORTER_ASANA_APP_SECRET # (default: "")
 
 
 - DEBUG # (default: false)
