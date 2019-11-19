@@ -1,6 +1,14 @@
 .PHONY: help
 .SILENT:
 
+PREPARE := $(shell test -e .env || cp .env.dist .env)
+IS_ENV_PRESENT := $(shell test -e .env && echo -n yes)
+
+ifeq ($(IS_ENV_PRESENT), yes)
+	include .env
+	export $(shell sed 's/=.*//' .env)
+endif
+
 SUDO=sudo
 IMAGE=quay.io/riotkit/taiga
 VERSION_FRONT_SUFFIX=-stable
