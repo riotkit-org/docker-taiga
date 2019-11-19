@@ -41,16 +41,26 @@ _prepare_env:
 
 ### CI
 
-ci@build: ## Build the image (params: VERSION, VERSION_FRONT)
+build_image: ## Build the image (params: VERSION, VERSION_FRONT)
 	${SUDO} docker build . -f Dockerfile \
 		--build-arg TAIGA_BACK_VERSION=${VERSION} \
 		--build-arg TAIGA_FRONT_VERSION=${VERSION_FRONT}${VERSION_FRONT_SUFFIX} \
 		-t quay.io/riotkit/taiga:${VERSION}
 
-ci@push: ## Push the image to the registry (params: VERSION)
-	${SUDO} docker tag quay.io/riotkit/taiga:${VERSION} quay.io/riotkit/taiga:${VERSION}-$$(date '+%Y-%m-%d')
-	${SUDO} docker push quay.io/riotkit/taiga:${VERSION}-$$(date '+%Y-%m-%d')
+push_image: ## Push the image to the registry (params: VERSION, GIT_TAG)
+	# main tag version eg. Taiga:4.12
 	${SUDO} docker push quay.io/riotkit/taiga:${VERSION}
+
+	# We consider Taiga version + OUR BUILD VERSION, as we maintain also a project - dockerized infrastructure
+	# that has it's own tags and we would like to introduce bugfixes and improvements to the existing Taiga released tags
+	# eg. Taiga:4.12-b1.1
+	if [[ "$$GIT_TAG" != "" ]]; then \
+		${SUDO} docker tag quay.io/riotkit/taiga:${VERSION} quay.io/riotkit/taiga:${VERSION}-b${GIT_TAG}; \
+		${SUDO} docker push quay.io/riotkit/taiga:${VERSION}-b${GIT_TAG}; \
+	fi
+
+ci@test:
+	echo " >> Test: GIT_TAG=${GIT_TAG}, VERSION=${VERSION}, VERSION_FRONT=${VERSION_FRONT}"
 
 ### COMMON AUTOMATION
 
@@ -67,12 +77,19 @@ dev@develop: ## Setup development environment, install git hooks
 	echo "make dev@before_commit" >> .git/hooks/pre-commit
 	chmod +x .git/hooks/pre-commit
 
-ci@all: _download_tools ## Build all recent versions from github
+ci@all: ## Build all recent versions from github (Params: GIT_TAG)
+	# Builds a few recent versions of Taiga. If docker-taiga was tagged, then force rebuilds few latest previous releases
+	# without overwritting already pushed docker tags. Example: taiga:4.12 was already released, so we will push taiga:4.12-b1.1
+
 	BUILD_PARAMS="--dont-rebuild "; \
-	if [[ "$$TRAVIS_COMMIT_MESSAGE" == *"@force-rebuild"* ]]; then \
+	RELEASE_TAG_TEMPLATE="%MATCH_0%"; \
+	if [[ "$$COMMIT_MESSAGE" == *"@force-rebuild"* ]] || [[ "${GIT_TAG}" != "" ]]; then \
 		BUILD_PARAMS=" "; \
+		if [[ "${GIT_TAG}" != "" ]]; then \
+			RELEASE_TAG_TEMPLATE="%MATCH_0%-b${GIT_TAG}"; \
+		fi; \
 	fi; \
-	./.helpers/for-each-github-release --exec "make ci@build ci@push VERSION=%RELEASE_TAG% VERSION_FROMT=%RELEASE_TAG%-stable" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="%MATCH_0%" --max-versions=5 --verbose
+	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=%MATCH_0%-stable GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=5 --verbose
 
 _download_tools:
 	curl -s https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/extract-envs-from-dockerfile > .helpers/extract-envs-from-dockerfile
