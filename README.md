@@ -245,13 +245,13 @@ Building images
 
 ```
 # to build a 4.2.5 version of backend and frontend
-make ci@build VERSION=4.2.5
+make build_image VERSION=4.2.5
 
 # to build backend v4.2.5 and frontend v4.1.5
-make ci@build VERSION=4.2.5 VERSION_FRONT=4.2.4-stable
+make build_image VERSION=4.2.5 VERSION_FRONT=4.2.4-stable
 
 # will build and tag under some-image:4.2.5
-make ci@build VERSION=4.2.5 IMAGE=some-image
+make build_image VERSION=4.2.5 IMAGE=some-image
 ```
 
 Troubleshooting
