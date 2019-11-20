@@ -77,7 +77,7 @@ dev@develop: ## Setup development environment, install git hooks
 	echo "make dev@before_commit" >> .git/hooks/pre-commit
 	chmod +x .git/hooks/pre-commit
 
-ci@all: ## Build all recent versions from github (Params: GIT_TAG)
+ci@all: _download_tools ## Build all recent versions from github (Params: GIT_TAG)
 	# Builds a few recent versions of Taiga. If docker-taiga was tagged, then force rebuilds few latest previous releases
 	# without overwritting already pushed docker tags. Example: taiga:4.12 was already released, so we will push taiga:4.12-b1.1
 
