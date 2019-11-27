@@ -69,6 +69,11 @@ make start
 # tadam...
 ```
 
+##### First log-in to the application, default username and password
+
+To log-in first time you should go to the [login page](http://localhost/login?next=%252Fdiscover) and enter "admin" as username, and "123123" as password.
+You can also log-in to the Django administration panel at http://localhost/admin/ (please remember about the slash at the end)
+
 #### Configuring LDAP
 
 LDAP support can optionally be enabled by setting the `TAIGA_LDAP` environment variable to `true`. See the Dockerfile for a list of the environment variables used for configuring LDAP and their descriptions.
@@ -140,9 +145,6 @@ List of all environment variables that could be used.
 
 # Hostname for events server
 - TAIGA_EVENTS_HOST # (default: events)
-
-# Should Taiga automatically redirect to SSL version of Taiga?
-- TAIGA_REDIRECT_TO_SSL # (default: false)
 
 # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
 - TAIGA_HOSTNAME # (default: localhost)
@@ -236,6 +238,9 @@ List of all environment variables that could be used.
 
 
 - TAIGA_GID # (default: 1000)
+
+# List of plugins to enable eg. "slack, other, other", "slack"
+- TAIGA_PLUGINS # (default: "")
 
 
 ```

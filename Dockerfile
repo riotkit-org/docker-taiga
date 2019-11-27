@@ -48,8 +48,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_ENABLE_EVENTS=false \
     # Hostname for events server
     TAIGA_EVENTS_HOST=events \
-    # Should Taiga automatically redirect to SSL version of Taiga?
-    TAIGA_REDIRECT_TO_SSL=false \
     # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
     TAIGA_HOSTNAME=localhost \
     # Set to `true` to enable the LDAP authentication.
