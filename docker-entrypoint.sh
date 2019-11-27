@@ -12,8 +12,13 @@ correct_permissions () {
 prepare_configs() {
     echo " >> Preparing configuration files..."
     echo " HINT: Add your files into /etc/nginx/extensions.d to include them in NGINX configuration"
+
+    echo " >> Enabling plugins"
+    /opt/riotkit/bin/plugin-manager.py export > /tmp/.plugins-conf.sh
+    source /tmp/.plugins-conf.sh
+
     j2 /opt/taiga-conf/nginx/nginx.conf.j2 >  /etc/nginx/nginx.conf
-    j2 /opt/taiga-conf/taiga/conf.json.j2 > /usr/src/taiga-front-dist/dist/conf.json
+    j2 /opt/taiga-conf/taiga/conf.json.j2  > /usr/src/taiga-front-dist/dist/conf.json
 }
 
 migrate() {
@@ -63,8 +68,9 @@ prepare_configs
 migrate
 
 set -x
+
+# test nginx configuration
 nginx -t
-chown taiga:taiga /usr/src/taiga-back/media
 
 # Start Taiga backend Django server
 exec "$@"
