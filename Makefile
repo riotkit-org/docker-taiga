@@ -42,9 +42,12 @@ _prepare_env:
 ### CI
 
 build_image: ## Build the image (params: VERSION, VERSION_FRONT)
-	${SUDO} docker build . -f Dockerfile \
+	version_front=${VERSION_FRONT};
+	version_front=$${version_front:-${VERSION}}; \
+	\
+	set -x; ${SUDO} docker build . -f Dockerfile \
 		--build-arg TAIGA_BACK_VERSION=${VERSION} \
-		--build-arg TAIGA_FRONT_VERSION=${VERSION_FRONT}${VERSION_FRONT_SUFFIX} \
+		--build-arg TAIGA_FRONT_VERSION=$${version_front}${VERSION_FRONT_SUFFIX} \
 		-t quay.io/riotkit/taiga:${VERSION}
 
 push_image: ## Push the image to the registry (params: VERSION, GIT_TAG)
