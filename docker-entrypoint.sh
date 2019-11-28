@@ -1,9 +1,11 @@
 #!/bin/bash
 
+set -e
+
 correct_permissions () {
     echo " >> Setting user id and group id"
-    usermod -u "$DJANGO_USER_ID" django
-    groupmod -g "$DJANGO_GROUP_ID" django
+    usermod -u "$TAIGA_UID" taiga
+    groupmod -g "$TAIGA_GID" taiga
 
     echo " >> Correcting permissions"
     chown taiga:taiga /usr/src /var/log/nginx/ /var/run/nginx.pid /var/lib/nginx /usr/src/taiga-back/media -R
@@ -24,7 +26,7 @@ prepare_configs() {
 migrate() {
     echo " >> Preparing a database migration"
 
-    : ${TAIGA_DB_CONNECT_TIMEOUT:=120}
+    TAIGA_DB_CONNECT_TIMEOUT=${TAIGA_DB_CONNECT_TIMEOUT:=120}
     DB_AVAILABLE=false
     DB_TEST_START=$(date +%s)
 
@@ -37,8 +39,8 @@ migrate() {
         if [ $DB_CHECK_STATUS -eq 1 ]; then
             DB_FAILED_TIME=$(date +%s)
             if [[ $(($DB_FAILED_TIME-$DB_TEST_START)) -gt $TAIGA_DB_CONNECT_TIMEOUT ]]; then
-               echo "Failed to connect to database for more than TAIGA_DB_CONNECT_TIMEOUT seconds. Exiting..."
-               exit 1
+                echo "Failed to connect to database for more than TAIGA_DB_CONNECT_TIMEOUT seconds. Exiting..."
+                exit 1
             fi
 
             echo "Failed to connect to database server or database does not exist."
@@ -61,6 +63,8 @@ migrate() {
     if [ ! -d "/usr/src/taiga-back/static" ]; then
         python manage.py collectstatic --noinput
     fi
+
+    /opt/riotkit/bin/plugin-manager.py after-migrations
 }
 
 correct_permissions

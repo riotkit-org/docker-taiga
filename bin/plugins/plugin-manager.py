@@ -43,8 +43,26 @@ class PluginManager:
             print('   .. installing frontend')
             module.frontend_setup()
 
+            os.chdir('/usr/src/taiga-back/')
             print('   .. installing backend')
             module.backend_setup()
+
+    def after_application_migrations(self):
+        """
+        Command: Execute code/commands after Taiga migration finishes (eg. execute plugin migrations)
+        :return:
+        """
+
+        print(' >> Updating/migrating plugins...')
+        print(list(self._plugins.items()))
+
+        for plugin_name, module in self._plugins.items():
+            print(' >> Executing after_application_migration for plugin "%s"' % plugin_name)
+
+            os.chdir('/usr/src/taiga-back/')
+
+            if hasattr(module, 'after_application_migration'):
+                module.after_application_migration()
 
     def export_plugin_variables_to_environment(self):
         """
@@ -105,7 +123,7 @@ class PluginManager:
 
     @staticmethod
     def _detect_front_path():
-        if os.path.isfile('/usr/src/taiga-front-dist/dist/plugins'):
+        if os.path.isdir('/usr/src/taiga-front-dist/dist/plugins'):
             return '/usr/src/taiga-front-dist/dist/plugins'
 
         return '/tmp'
@@ -117,9 +135,10 @@ if __name__ == '__main__':
 
     if action == 'install-all-plugins':
         app.install()
-
     elif action == 'export':
         app.export_plugin_variables_to_environment()
+    elif action == 'after-migrations':
+        app.after_application_migrations()
     else:
         print('Tasks: install-all-plugins, export')
         sys.exit(1)

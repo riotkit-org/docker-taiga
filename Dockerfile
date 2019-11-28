@@ -152,7 +152,7 @@ RUN set -x \
     && pip install --no-cache-dir taiga-contrib-ldap-auth-ext \
     && chmod +x /opt/riotkit/bin/* \
     && mkdir -p /usr/src/taiga-plugins \
-    && cd /usr/src/taiga-front-dist/dist/plugins && /opt/riotkit/bin/plugin-manager.py install-all-plugins
+    && /opt/riotkit/bin/plugin-manager.py install-all-plugins
 
 
 # Configure SSL ( Required for the LDAP plugin )
