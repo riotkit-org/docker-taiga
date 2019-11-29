@@ -107,7 +107,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     DEBUG=false \
     TAIGA_UID=1000 \
     TAIGA_GID=1000 \
-    # List of plugins to enable eg. "slack, other, other", "slack"
+    # List of plugins to enable eg. "slack, other, other" or just "slack"
     TAIGA_PLUGINS=""
 
 COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/plugin-manager.py

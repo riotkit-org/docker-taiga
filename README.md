@@ -239,7 +239,7 @@ List of all environment variables that could be used.
 
 - TAIGA_GID # (default: 1000)
 
-# List of plugins to enable eg. "slack, other, other", "slack"
+# List of plugins to enable eg. "slack, other, other" or just "slack"
 - TAIGA_PLUGINS # (default: "")
 
 
