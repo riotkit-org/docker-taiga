@@ -57,7 +57,7 @@ push_image: ## Push the image to the registry (params: VERSION, GIT_TAG)
 	# We consider Taiga version + OUR BUILD VERSION, as we maintain also a project - dockerized infrastructure
 	# that has it's own tags and we would like to introduce bugfixes and improvements to the existing Taiga released tags
 	# eg. Taiga:4.12-b1.1
-	if [[ "$$GIT_TAG" != "" ]]; then \
+	if [[ "${GIT_TAG}" != "" ]]; then \
 		${SUDO} docker tag quay.io/riotkit/taiga:${VERSION} quay.io/riotkit/taiga:${VERSION}-b${GIT_TAG}; \
 		${SUDO} docker push quay.io/riotkit/taiga:${VERSION}-b${GIT_TAG}; \
 	fi
