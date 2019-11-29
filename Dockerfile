@@ -48,8 +48,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_ENABLE_EVENTS=false \
     # Hostname for events server
     TAIGA_EVENTS_HOST=events \
-    # Should Taiga automatically redirect to SSL version of Taiga?
-    TAIGA_REDIRECT_TO_SSL=false \
     # Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
     TAIGA_HOSTNAME=localhost \
     # Set to `true` to enable the LDAP authentication.
@@ -108,7 +106,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_IMPORTER_ASANA_APP_SECRET="" \
     DEBUG=false \
     TAIGA_UID=1000 \
-    TAIGA_GID=1000
+    TAIGA_GID=1000 \
+    # List of plugins to enable eg. "slack, other, other" or just "slack"
+    TAIGA_PLUGINS=""
+
+COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/plugin-manager.py
+COPY plugins /usr/src/taiga-plugins
 
 # install dependencies
 # download and unpack applications in selected versions
@@ -116,8 +119,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # clean up
 RUN set -x \
     && apt-get update \
-    && apt-get install -y --no-install-recommends locales gettext ca-certificates nginx libcap2-bin supervisor wget curl \
+    && apt-get install -y --no-install-recommends locales gettext ca-certificates nginx libcap2-bin supervisor wget curl subversion \
     && apt-get clean \
+    \
+    && echo "LANG=en_US.UTF-8" > /etc/default/locale \
+    && echo "LC_TYPE=en_US.UTF-8" > /etc/default/locale \
+    && echo "LC_MESSAGES=POSIX" >> /etc/default/locale \
+    && echo "LANGUAGE=en" >> /etc/default/locale \
+    && locale-gen en_US.UTF-8 && dpkg-reconfigure locales \
+    && locale -a \
     \
     && addgroup --gid $TAIGA_GID taiga \
     && adduser taiga --uid $TAIGA_UID --home /usr/src --disabled-password --shell /bin/bash --gid $TAIGA_GID \
@@ -136,16 +146,14 @@ RUN set -x \
     \
     && rm /usr/src/*.tar.gz \
     \
-    && mkdir -p /taiga /usr/src/taiga-front-dist/dist/js/ \
+    && mkdir -p /taiga /usr/src/taiga-front-dist/dist/js/ /usr/src/taiga-front-dist/dist/plugins \
     && pip install --no-cache-dir -r /usr/src/taiga-back/requirements.txt \
     && pip install --no-cache-dir j2cli \
     && pip install --no-cache-dir taiga-contrib-ldap-auth-ext \
-    && echo "LANG=en_US.UTF-8" > /etc/default/locale \
-    && echo "LC_TYPE=en_US.UTF-8" > /etc/default/locale \
-    && echo "LC_MESSAGES=POSIX" >> /etc/default/locale \
-    && echo "LANGUAGE=en" >> /etc/default/locale \
-    && locale-gen en_US.UTF-8 && dpkg-reconfigure locales \
-    && locale -a
+    && chmod +x /opt/riotkit/bin/* \
+    && mkdir -p /usr/src/taiga-plugins \
+    && /opt/riotkit/bin/plugin-manager.py install-all-plugins
+
 
 # Configure SSL ( Required for the LDAP plugin )
 RUN echo "CipherString=DEFAULT@SECLEVEL=1" >> /etc/ssl/openssl.cnf
@@ -160,6 +168,9 @@ COPY supervisor.conf /etc/supervisord.conf
 RUN cp /opt/taiga-conf/taiga/local.py /usr/src/taiga-back/settings/local.py \
     && cp /opt/taiga-conf/taiga/docker-settings.py /usr/src/taiga-back/settings/docker.py \
     && j2 /opt/taiga-conf/locale.gen.j2 > /etc/locale.gen \
+    \
+    # NOTICE: In case that "collectstatic" would not be found, it means in Django that the Taiga was not loaded
+    # and only basic Django application is configured because of an error, so Taiga commands are not loaded in that case
     \
     && cd /usr/src/taiga-back/ && python manage.py collectstatic --noinput \
     && mkdir -p /var/log/nginx /var/lib/nginx \

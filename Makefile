@@ -42,9 +42,12 @@ _prepare_env:
 ### CI
 
 build_image: ## Build the image (params: VERSION, VERSION_FRONT)
-	${SUDO} docker build . -f Dockerfile \
+	version_front=${VERSION_FRONT};
+	version_front=$${version_front:-${VERSION}}; \
+	\
+	set -x; ${SUDO} docker build . -f Dockerfile \
 		--build-arg TAIGA_BACK_VERSION=${VERSION} \
-		--build-arg TAIGA_FRONT_VERSION=${VERSION_FRONT}${VERSION_FRONT_SUFFIX} \
+		--build-arg TAIGA_FRONT_VERSION=$${version_front}${VERSION_FRONT_SUFFIX} \
 		-t quay.io/riotkit/taiga:${VERSION}
 
 push_image: ## Push the image to the registry (params: VERSION, GIT_TAG)
@@ -89,7 +92,7 @@ ci@all: _download_tools ## Build all recent versions from github (Params: GIT_TA
 			RELEASE_TAG_TEMPLATE="%MATCH_0%-b${GIT_TAG}"; \
 		fi; \
 	fi; \
-	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=%MATCH_0%-stable GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=5 --verbose
+	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=%MATCH_0% GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=5 --verbose
 
 _download_tools:
 	curl -s https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/extract-envs-from-dockerfile > .helpers/extract-envs-from-dockerfile

@@ -18,5 +18,7 @@
         {% if TAIGA_IMPORTER_JIRA_ENABLED.lower() == 'true' %} {{ comma() }} "jira" {% endif %}
         {% if TAIGA_IMPORTER_ASANA_ENABLED.lower() == 'true' %} {{ comma() }} "asana" {% endif %}
     ],
-    "contribPlugins": []
+    "contribPlugins": [
+        {{ FRONTEND_CONTRIB_PLUGINS_LIST }}
+    ]
 }

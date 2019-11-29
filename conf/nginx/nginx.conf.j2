@@ -22,14 +22,6 @@ http {
     keepalive_timeout  65;
     #gzip  on;
 
-    {% if TAIGA_REDIRECT_TO_SSL.lower() == 'true' %}
-    server {
-        listen 80 default_server;
-        server_name _;
-        return 301 https://$server_name$request_uri;
-    }
-    {% endif %}
-
     server {
         listen 80 default_server;
         server_name _;

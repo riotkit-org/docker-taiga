@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # If you want to modify this file, I recommend check out docker-taiga-example
 # https://github.com/benhutchins/docker-taiga-example
 #

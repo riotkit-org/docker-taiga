@@ -2,6 +2,7 @@
 # https://github.com/taigaio/taiga-back/blob/master/settings/common.py
 from .common import *
 import os
+import json
 
 DATABASES = {
     'default': {
@@ -52,6 +53,8 @@ if os.getenv('TAIGA_ENABLE_EMAIL', '').lower() == 'true':
 
 if os.getenv('TAIGA_LDAP', '').lower() == 'true':
     INSTALLED_APPS += ['taiga_contrib_ldap_auth_ext']
+
+INSTALLED_APPS += json.loads(os.getenv('BACKEND_INSTALLED_APPS', '[]'))
 
 LDAP_SERVER = os.getenv('LDAP_SERVER', '')
 LDAP_PORT = int(os.getenv('LDAP_PORT', 0))
