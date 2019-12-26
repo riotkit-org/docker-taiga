@@ -12,7 +12,7 @@ before_script:
 
     # authorization
     - echo "$DOCKER_PASSWORD" | sudo docker login -u "$DOCKER_USERNAME" --password-stdin
-    - echo "$QUAY_PASSWORD" | sudo docker login -u "$QUAY_USERNAME" --password-stdin quay.io
+    - echo "$QUAY_PASSWORD"  | sudo docker login -u "$QUAY_USERNAME" --password-stdin quay.io
 
 script:
     - make ci@all COMMIT_MESSAGE=$TRAVIS_COMMIT_MESSAGE GIT_TAG=${TRAVIS_TAG}
