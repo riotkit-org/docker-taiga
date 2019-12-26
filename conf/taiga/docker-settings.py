@@ -56,6 +56,8 @@ if os.getenv('TAIGA_LDAP', '').lower() == 'true':
 
 INSTALLED_APPS += json.loads(os.getenv('BACKEND_INSTALLED_APPS', '[]'))
 
+print(' ====> BACKEND_INSTALLED_APPS: %s' % str(INSTALLED_APPS))
+
 LDAP_SERVER = os.getenv('LDAP_SERVER', '')
 LDAP_PORT = int(os.getenv('LDAP_PORT', 0))
 

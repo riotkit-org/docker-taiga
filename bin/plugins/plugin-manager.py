@@ -53,10 +53,21 @@ class PluginManager:
         :return:
         """
 
-        print(' >> Updating/migrating plugins...')
-        print(list(self._plugins.items()))
+        plugins_to_migrate = self._get_enabled_plugins()
+        valid_plugins_list = str(list(self._plugins.keys())).replace('.py', '')
 
-        for plugin_name, module in self._plugins.items():
+        print(' >> Updating/migrating plugins...')
+        print(plugins_to_migrate)
+
+        for plugin_name in plugins_to_migrate:
+            if not plugin_name:
+                continue
+
+            if plugin_name not in self._plugins:
+                raise Exception('Plugin name "%s" is invalid, valid options: %s' % (plugin_name, valid_plugins_list))
+
+            module = self._plugins[plugin_name]
+
             print(' >> Executing after_application_migration for plugin "%s"' % plugin_name)
 
             os.chdir('/usr/src/taiga-back/')
@@ -70,7 +81,7 @@ class PluginManager:
         :return:
         """
 
-        enabled_plugins = os.getenv('TAIGA_PLUGINS', '').replace(' ', '').replace('"', '').strip().split(',')
+        enabled_plugins = self._get_enabled_plugins()
         valid_plugins_list = str(list(self._plugins.keys())).replace('.py', '')
 
         frontend_contrib_plugins_list = []
@@ -95,6 +106,10 @@ class PluginManager:
                 json.dumps(backend_installed_apps).replace('"', '\\"')
             )
         )
+
+    @staticmethod
+    def _get_enabled_plugins() -> list:
+        return os.getenv('TAIGA_PLUGINS', '').replace(' ', '').replace('"', '').strip().split(',')
 
     def _load_all(self):
         self._plugins = {}
