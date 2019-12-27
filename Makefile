@@ -15,7 +15,7 @@ VERSION_FRONT_SUFFIX=-stable
 ENV_NAME=taiga
 COMPOSE_CMD=docker-compose -p ${ENV_NAME}
 SHELL=/bin/bash
-RIOTKIT_UTILS_VER=v1.2.3
+RIOTKIT_UTILS_VER=v2.1.0
 
 help:
 	@grep -E '^[a-zA-Z\-\_0-9\.@]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -42,7 +42,7 @@ _prepare_env:
 ### CI
 
 build_image: ## Build the image (params: VERSION, VERSION_FRONT)
-	version_front=${VERSION_FRONT};
+	version_front=${VERSION_FRONT}; \
 	version_front=$${version_front:-${VERSION}}; \
 	\
 	set -x; ${SUDO} docker build . -f Dockerfile \
@@ -92,11 +92,13 @@ ci@all: _download_tools ## Build all recent versions from github (Params: GIT_TA
 			RELEASE_TAG_TEMPLATE="%MATCH_0%-b${GIT_TAG}"; \
 		fi; \
 	fi; \
-	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=%MATCH_0% GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=5 --verbose
+	set -x; \
+	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=\$$($$(pwd)/.helpers/find-closest-release taigaio/taiga-front-dist %MATCH_0%) GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=5 --verbose
 
 _download_tools:
-	curl -s https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/extract-envs-from-dockerfile > .helpers/extract-envs-from-dockerfile
-	curl -s https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/env-to-json                  > .helpers/env-to-json
-	curl -s https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/for-each-github-release      > .helpers/for-each-github-release
-	curl -s https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/docker-generate-readme       > .helpers/docker-generate-readme
-	chmod +x .helpers/extract-envs-from-dockerfile .helpers/env-to-json .helpers/for-each-github-release .helpers/docker-generate-readme
+	curl -s -f https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/extract-envs-from-dockerfile > .helpers/extract-envs-from-dockerfile
+	curl -s -f https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/find-closest-github-release  > .helpers/find-closest-release
+	curl -s -f https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/env-to-json                  > .helpers/env-to-json
+	curl -s -f https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/for-each-github-release      > .helpers/for-each-github-release
+	curl -s -f https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/docker-generate-readme       > .helpers/docker-generate-readme
+	chmod +x .helpers/extract-envs-from-dockerfile .helpers/env-to-json .helpers/for-each-github-release .helpers/docker-generate-readme .helpers/find-closest-release
