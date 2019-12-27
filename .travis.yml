@@ -15,4 +15,4 @@ before_script:
     - echo "$QUAY_PASSWORD"  | sudo docker login -u "$QUAY_USERNAME" --password-stdin quay.io
 
 script:
-    - make ci@all COMMIT_MESSAGE=$TRAVIS_COMMIT_MESSAGE GIT_TAG=${TRAVIS_TAG}
+    - make ci@all COMMIT_MESSAGE="$TRAVIS_COMMIT_MESSAGE" GIT_TAG="${TRAVIS_TAG}"
