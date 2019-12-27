@@ -44,6 +44,7 @@ _prepare_env:
 build_image: ## Build the image (params: VERSION, VERSION_FRONT)
 	version_front=${VERSION_FRONT}; \
 	version_front=$${version_front:-${VERSION}}; \
+	version_front=$${version_front/-stable/}; \
 	\
 	set -x; ${SUDO} docker build . -f Dockerfile \
 		--build-arg TAIGA_BACK_VERSION=${VERSION} \
