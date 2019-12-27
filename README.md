@@ -264,7 +264,13 @@ make build_image VERSION=4.2.5 IMAGE=some-image
 Troubleshooting
 ---------------
 
+1. Not able to log-in or edit user settings
+
 If you have trouble logging in or editing user settings it may be related to a failure sending emails. This will be accompanied by a `[CRITICAL] WORKER TIMEOUT` error in the logs. Try validating your email configuration or setting `TAIGA_ENABLE_EMAIL` to `false` to see if that fixes the issue.
+
+2. Using existing database
+
+See: https://github.com/riotkit-org/docker-taiga/issues/24
 
 Developing the container
 ------------------------
