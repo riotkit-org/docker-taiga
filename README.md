@@ -38,6 +38,8 @@ Instead of `latest` we tag each Taiga stable release with the release number ex.
 
 See the list of available tags there: https://quay.io/repository/riotkit/taiga?tab=tags and check out the configuration reference.
 
+![versioning](./docs/versioning.png)
+
 ```bash
 # NOTICE 1: Check "Configuration reference" section of this README for list of available environment variables
 # NOTICE 2: You need a working PostgreSQL server
