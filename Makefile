@@ -53,7 +53,10 @@ build_image: ## Build the image (params: VERSION, VERSION_FRONT)
 
 push_image: ## Push the image to the registry (params: VERSION, GIT_TAG)
 	# main tag version eg. Taiga:4.12
-	${SUDO} docker push quay.io/riotkit/taiga:${VERSION}
+	# Detail: Do not overwrite tag, when releasing a RC version (release candidate, as RC's are testing versions)
+	if [[ "${GIT_TAG}" != *"-RC"* ]]; then \
+		${SUDO} docker push quay.io/riotkit/taiga:${VERSION}; \
+	fi
 
 	# We consider Taiga version + OUR BUILD VERSION, as we maintain also a project - dockerized infrastructure
 	# that has it's own tags and we would like to introduce bugfixes and improvements to the existing Taiga released tags
