@@ -130,7 +130,26 @@ Releasing
 On Travis CI the build is triggered each month, then all recent versions of Taiga are built. Already existing docker tags are not overwritten.
 The build is also triggered on-commit. Snapshot version is made from master branch, and is always a latest master, can be unstable.
 
-To release a bugfix version and REBUILD EXISTING TAGS just add "@force-rebuild" in commit message, recent 5 tags will be rebuilt (not all in registry).
+To release a bugfix version and REBUILD EXISTING TAGS just add "@force-rebuild" in commit message, recent 3 tags will be rebuilt (not all in registry).
+
+Versioning
+----------
+
+![versioning](./docs/versioning.png)
+
+The container has it's own versioning. There are a few rules:
+
+1. Releasing TEST builds requires tagging `master` branch with name containing "RC" eg. `1.0-RC3`
+
+After tagging 1.0-RC3, recent 3 versions of Taiga will be built with RC eg. quay.io/riotkit/taiga:4.2.12-b1.0-RC3
+**No main tag would be replaced, so quay.io/riotkit/taiga:4.2.12 stays untouched**
+
+2. Releasing STABLE images requires tagging `master` with just version number eg. `1.0`
+
+When `master` branch was tagged and pushed with eg. `1.0`, then 3 recent versions of Taiga would be rebuilt.
+The main versions such as **quay.io/riotkit/taiga:4.2.12** would be rebuilt, and new tags such as **quay.io/riotkit/taiga:4.2.12-b1.0** would be produced.
+
+If you want to use only unchanged, stable releases, without getting hotfixes you should use a TAIGA VERSION + BUILD NUMBER, WITHOUT RC. Example: **quay.io/riotkit/taiga:4.2.12-b1.0**
 
 Copyleft
 --------

@@ -101,7 +101,7 @@ ci@all: _download_tools ## Build all recent versions from github (Params: GIT_TA
 		fi; \
 	fi; \
 	set -x; \
-	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=\$$($$(pwd)/.helpers/find-closest-release taigaio/taiga-front-dist %MATCH_0%) GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=5 --verbose
+	./.helpers/for-each-github-release --exec "make build_image push_image VERSION=%MATCH_0% VERSION_FRONT=\$$($$(pwd)/.helpers/find-closest-release taigaio/taiga-front-dist %MATCH_0%) GIT_TAG=$$GIT_TAG" --repo-name taigaio/taiga-back --dest-docker-repo quay.io/riotkit/taiga $${BUILD_PARAMS}--allowed-tags-regexp="([0-9\.]+)$$" --release-tag-template="$${RELEASE_TAG_TEMPLATE}" --max-versions=3 --verbose
 
 _download_tools:
 	curl -s -f https://raw.githubusercontent.com/riotkit-org/ci-utils/${RIOTKIT_UTILS_VER}/bin/extract-envs-from-dockerfile > .helpers/extract-envs-from-dockerfile
