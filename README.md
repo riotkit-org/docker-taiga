@@ -307,6 +307,15 @@ The main versions such as **quay.io/riotkit/taiga:4.2.12** would be rebuilt, and
 
 If you want to use only unchanged, stable releases, without getting hotfixes you should use a TAIGA VERSION + BUILD NUMBER, WITHOUT RC. Example: **quay.io/riotkit/taiga:4.2.12-b1.0**
 
+Versioning
+----------
+
+![versioning](./docs/versioning.png)
+
+The container has it's own versioning. There are a few rules:
+
+1.
+
 Copyleft
 --------
 
