@@ -288,6 +288,15 @@ The build is also triggered on-commit. Snapshot version is made from master bran
 
 To release a bugfix version and REBUILD EXISTING TAGS just add "@force-rebuild" in commit message, recent 5 tags will be rebuilt (not all in registry).
 
+Versioning
+----------
+
+![versioning](./docs/versioning.png)
+
+The container has it's own versioning. There are a few rules:
+
+1.
+
 Copyleft
 --------
 
