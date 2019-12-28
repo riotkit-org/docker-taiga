@@ -293,7 +293,7 @@ Versioning
 
 ![versioning](./docs/versioning.png)
 
-The container has it's own versioning. There are a few rules:
+The container has it's own versioning.  There are a few rules:
 
 1. Releasing TEST builds requires tagging `master` branch with name containing "RC" eg. `1.0-RC3`
 
@@ -306,15 +306,6 @@ When `master` branch was tagged and pushed with eg. `1.0`, then 3 recent version
 The main versions such as **quay.io/riotkit/taiga:4.2.12** would be rebuilt, and new tags such as **quay.io/riotkit/taiga:4.2.12-b1.0** would be produced.
 
 If you want to use only unchanged, stable releases, without getting hotfixes you should use a TAIGA VERSION + BUILD NUMBER, WITHOUT RC. Example: **quay.io/riotkit/taiga:4.2.12-b1.0**
-
-Versioning
-----------
-
-![versioning](./docs/versioning.png)
-
-The container has it's own versioning. There are a few rules:
-
-1.
 
 Copyleft
 --------
