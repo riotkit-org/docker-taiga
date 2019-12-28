@@ -33,8 +33,11 @@ migrate() {
     # Setup database automatically if needed
       while [ "$DB_AVAILABLE" = "false" ]; do
         echo "Running database check"
+
+        set +e
         python /checkdb.py
         DB_CHECK_STATUS=$?
+        set -e
 
         if [ $DB_CHECK_STATUS -eq 1 ]; then
             DB_FAILED_TIME=$(date +%s)
@@ -52,8 +55,8 @@ migrate() {
             python manage.py migrate --noinput
             python manage.py loaddata initial_user
             python manage.py loaddata initial_project_templates
-            python manage.py loaddata initial_role
             python manage.py compilemessages
+            python manage.py rebuild_timeline --purge
         else
             DB_AVAILABLE="true"
         fi

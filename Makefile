@@ -25,6 +25,10 @@ help:
 start: _prepare_env ## Start the environment (params: VERSION)
 	${SUDO} bash -c "VERSION=${VERSION} ${COMPOSE_CMD} up"
 
+clear: ## Remove all volumes and containers
+	${SUDO} bash -c "VERSION=${VERSION} ${COMPOSE_CMD} down -v"
+	${SUDO} bash -c "VERSION=${VERSION} ${COMPOSE_CMD} rm -s -f -v"
+
 start_detached: _prepare_env ## Start the environment in the background (params: VERSION)
 	${SUDO} bash -c "VERSION=${VERSION} ${COMPOSE_CMD} up -d"
 
