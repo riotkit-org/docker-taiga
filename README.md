@@ -235,14 +235,38 @@ List of all environment variables that could be used.
 
 - DEBUG # (default: false)
 
-
+# Default container user id
 - TAIGA_UID # (default: 1000)
 
-
+# Default container group id
 - TAIGA_GID # (default: 1000)
 
 # List of plugins to enable eg. "slack, other, other" or just "slack"
 - TAIGA_PLUGINS # (default: "")
+
+# Interval (in seconds) for a background task that sends mails
+- MAIL_NOTIFICATIONS_SEND_EVERY # (default: 120)
+
+# The number of worker processes for handling requests
+- GUNICORN_WORKERS # (default: 4)
+
+# Workers silent for more than this many seconds are killed and restarted
+- GUNICORN_TIMEOUT # (default: 60)
+
+# The number of worker threads for handling requests
+- GUNICORN_WORKER_THREADS # (default: 1)
+
+# The maximum number of simultaneous clients
+- GUNICORN_WORKER_CONNECTIONS # (default: 1000)
+
+# The maximum number of requests a worker will process before restarting
+- GUNICORN_WORKER_MAX_REQUESTS # (default: 3000)
+
+# The granularity of Error log outputs
+- GUNICRON_LOG_LEVEL # (default: info)
+
+# The maximum number of pending connections
+- GUNICORN_BACKLOG # (default: 2048)
 
 
 ```
@@ -270,7 +294,20 @@ If you have trouble logging in or editing user settings it may be related to a f
 
 2. Using existing database
 
-See: https://github.com/riotkit-org/docker-taiga/issues/24
+Set `TAIGA_DB_HOST` to point to your PostgreSQL hostname.
+See also: https://github.com/riotkit-org/docker-taiga/issues/24
+
+3. Debugging, getting logs
+
+In container there is a supervisor configured. Use `supervisorctl` to access services.
+
+Examples:
+```bash
+supervisorctl status send_app_notifications
+supervisorctl tail -f send_app_notifications stderr
+supervisorctl tail -f backend stderr
+supervisorctl tail -f nginx stderr
+```
 
 Developing the container
 ------------------------
