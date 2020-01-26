@@ -8,6 +8,7 @@ correct_permissions () {
     groupmod -g "$TAIGA_GID" taiga
 
     echo " >> Correcting permissions"
+    touch /var/run/nginx.pid
     chown taiga:taiga /usr/src /var/log/nginx/ /var/run/nginx.pid /var/lib/nginx /usr/src/taiga-back/media -R
 }
 
