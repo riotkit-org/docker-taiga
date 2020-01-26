@@ -105,12 +105,17 @@ ENV DEBIAN_FRONTEND=noninteractive \
     # Asana importer app secret
     TAIGA_IMPORTER_ASANA_APP_SECRET="" \
     DEBUG=false \
+    # Default container user id
     TAIGA_UID=1000 \
+    # Default container group id
     TAIGA_GID=1000 \
     # List of plugins to enable eg. "slack, other, other" or just "slack"
-    TAIGA_PLUGINS=""
+    TAIGA_PLUGINS="" \
+    # Interval (in seconds) for a background task that sends mails
+    MAIL_NOTIFICATIONS_SEND_EVERY=120
 
-COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/plugin-manager.py
+COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/
+COPY bin/cron/send-mail-notifications.sh /opt/riotkit/bin/
 COPY plugins /usr/src/taiga-plugins
 
 # install dependencies
@@ -176,7 +181,7 @@ RUN cp /opt/taiga-conf/taiga/local.py /usr/src/taiga-back/settings/local.py \
     && mkdir -p /var/log/nginx /var/lib/nginx \
     && touch /var/run/nginx.pid
 
-EXPOSE 80 443
+EXPOSE 80 9001
 VOLUME /usr/src/taiga-back/media
 WORKDIR /usr/src/taiga-back
 

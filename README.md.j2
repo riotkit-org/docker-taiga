@@ -114,7 +114,20 @@ If you have trouble logging in or editing user settings it may be related to a f
 
 2. Using existing database
 
-See: https://github.com/riotkit-org/docker-taiga/issues/24
+Set `TAIGA_DB_HOST` to point to your PostgreSQL hostname.
+See also: https://github.com/riotkit-org/docker-taiga/issues/24
+
+3. Debugging, getting logs
+
+In container there is a supervisor configured. Use `supervisorctl` to access services.
+
+Examples:
+```bash
+supervisorctl status send_app_notifications
+supervisorctl tail -f send_app_notifications stderr
+supervisorctl tail -f backend stderr
+supervisorctl tail -f nginx stderr
+```
 
 Developing the container
 ------------------------
