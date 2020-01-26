@@ -112,10 +112,25 @@ ENV DEBIAN_FRONTEND=noninteractive \
     # List of plugins to enable eg. "slack, other, other" or just "slack"
     TAIGA_PLUGINS="" \
     # Interval (in seconds) for a background task that sends mails
-    MAIL_NOTIFICATIONS_SEND_EVERY=120
+    MAIL_NOTIFICATIONS_SEND_EVERY=120 \
+    # The number of worker processes for handling requests
+    GUNICORN_WORKERS=4 \
+    # Workers silent for more than this many seconds are killed and restarted
+    GUNICORN_TIMEOUT=60 \
+    # The number of worker threads for handling requests
+    GUNICORN_WORKER_THREADS=1 \
+    # The maximum number of simultaneous clients
+    GUNICORN_WORKER_CONNECTIONS=1000 \
+    # The maximum number of requests a worker will process before restarting
+    GUNICORN_WORKER_MAX_REQUESTS=3000 \
+    # The granularity of Error log outputs
+    GUNICRON_LOG_LEVEL=info \
+    # The maximum number of pending connections
+    GUNICORN_BACKLOG=2048
 
 COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/
 COPY bin/cron/send-mail-notifications.sh /opt/riotkit/bin/
+COPY bin/taiga/launch-gunicorn.sh /opt/riotkit/bin/
 COPY plugins /usr/src/taiga-plugins
 
 # install dependencies
