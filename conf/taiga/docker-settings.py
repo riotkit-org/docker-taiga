@@ -17,6 +17,8 @@ DATABASES = {
 TAIGA_HOSTNAME = os.getenv('TAIGA_HOSTNAME', 'localhost')
 TAIGA_SCHEME = os.getenv('TAIGA_SCHEME', 'http')
 
+WEBHOOKS_ENABLED = os.getenv('TAIGA_ENABLE_WEBHOOKS', 'False')
+
 SITES['api']['domain'] = TAIGA_HOSTNAME
 SITES['front']['domain'] = TAIGA_HOSTNAME
 

@@ -126,7 +126,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     # The granularity of Error log outputs
     GUNICRON_LOG_LEVEL=info \
     # The maximum number of pending connections
-    GUNICORN_BACKLOG=2048
+    GUNICORN_BACKLOG=2048 \
+    # Enable or not the webhooks
+    TAIGA_ENABLE_WEBHOOKS=False
 
 COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/
 COPY bin/cron/send-mail-notifications.sh /opt/riotkit/bin/

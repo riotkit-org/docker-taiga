@@ -268,6 +268,8 @@ List of all environment variables that could be used.
 # The maximum number of pending connections
 - GUNICORN_BACKLOG # (default: 2048)
 
+# Enable or not the webhooks
+- TAIGA_ENABLE_WEBHOOKS # (default: false)
 
 ```
 
