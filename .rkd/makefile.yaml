@@ -1,0 +1,18 @@
+version: org.riotkit.rkd/0.3
+
+tasks:
+    :build-all-versions:
+        description: Build all versions of Taiga
+        arguments:
+            "--commit-msg":
+              required: True
+        steps: |
+            export GITHUB_REPOSITORY=taigaio/taiga-back
+            export ALLOWED_TAGS_REGEXP="([0-9\.]+)$"
+            export DEST_DOCKER_REPO=quay.io/riotkit/taiga
+
+            # todo: --without-ui (domyślnie włączone jeżeli RKD_DEPTH >= 2)
+            echo " > Starting CI"
+
+            rkd --no-ui :boat-ci:process \
+                --commit-message="${ARG_COMMIT_MSG}"
