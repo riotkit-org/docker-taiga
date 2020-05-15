@@ -3,8 +3,8 @@ MAINTAINER Benjamin Hutchins <ben@hutchins.co>
 MAINTAINER Riotkit <riotkit_org@riseup.net>
 
 # build-time arguments, use them in docker build with --build-arg switch to build different version
-ARG TAIGA_BACK_VERSION=4.2.7
-ARG TAIGA_FRONT_VERSION=4.2.7-stable
+ARG RKT_APP_VERSION=4.2.7
+ARG FRONTEND_VERSION=4.2.7-stable
 
 # runtime arguments
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -153,8 +153,8 @@ RUN set -x \
     && adduser taiga --uid $TAIGA_UID --home /usr/src --disabled-password --shell /bin/bash --gid $TAIGA_GID \
     && setcap cap_net_bind_service=ep /usr/sbin/nginx \
     \
-    && wget https://github.com/taigaio/taiga-back/archive/$TAIGA_BACK_VERSION.tar.gz -O /usr/src/taiga-back.tar.gz \
-    && wget https://github.com/taigaio/taiga-front-dist/archive/$TAIGA_FRONT_VERSION.tar.gz -O /usr/src/taiga-front-dist.tar.gz \
+    && wget https://github.com/taigaio/taiga-back/archive/$RKT_APP_VERSION.tar.gz -O /usr/src/taiga-back.tar.gz \
+    && wget https://github.com/taigaio/taiga-front-dist/archive/$FRONTEND_VERSION.tar.gz -O /usr/src/taiga-front-dist.tar.gz \
     && cd /usr/src/ \
     && tar -xvf taiga-back.tar.gz \
     && mkdir -p /usr/src/taiga-back \

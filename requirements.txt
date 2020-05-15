@@ -1,2 +1,2 @@
-rkd==0.3
-rkt-ciutils
+rkd==0.3.1
+rkt-ciutils==3.0.0-ALPHA-1
