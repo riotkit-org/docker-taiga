@@ -1,2 +1,2 @@
-rkd
+rkd==0.3.2.dev2
 rkt-ciutils==3.0.0.dev1
