@@ -11,4 +11,4 @@ before_script:
     - pip install -r ./requirements.txt
 
 script:
-    - rkd :build-all-versions --commit-msg="$TRAVIS_COMMIT_MESSAGE"
+    - sudo -E rkd :build-all-versions --commit-msg="$TRAVIS_COMMIT_MESSAGE"
