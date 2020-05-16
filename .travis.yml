@@ -8,7 +8,7 @@ before_script:
     # authorization
     - echo "$DOCKER_PASSWORD" | sudo docker login -u "$DOCKER_USERNAME" --password-stdin
     - echo "$QUAY_PASSWORD" | sudo docker login -u "$QUAY_USERNAME" --password-stdin quay.io
-    - pip install -r ./requirements.txt
+    - chmod 777 /home/travis/.docker/config.json
 
 script:
-    - sudo -E rkd :build-all-versions --commit-msg="$TRAVIS_COMMIT_MESSAGE"
+    - rkd :build-all-versions --commit-msg="$TRAVIS_COMMIT_MESSAGE"
