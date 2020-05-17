@@ -11,4 +11,5 @@ before_script:
     - sudo chmod 777 /home/travis/.docker/config.json
 
 script:
+    # RiotKit Do is installed by Travis from requirements.txt file
     - rkd :build-all-versions --commit-msg="$TRAVIS_COMMIT_MESSAGE"

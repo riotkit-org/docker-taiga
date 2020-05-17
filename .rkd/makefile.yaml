@@ -3,18 +3,34 @@ imports:
     - rkd.standardlib.python
     - rkd.standardlib.docker
     - rkt_ciutils.boatci
+    - rkt_ciutils.docker
+
+env_files:
+    - env/build-settings.env
 
 tasks:
     :build-all-versions:
         description: Build all versions of Taiga
         arguments:
             "--commit-msg":
-              required: True
+                required: True
         steps: |
-            export GITHUB_REPOSITORY=taigaio/taiga-back
-            export ALLOWED_TAGS_REGEXP="([0-9\.]+)$"
-            export DEST_DOCKER_REPO=quay.io/riotkit/taiga
-            export DOCKER_BUILD_OPTS="--build-arg FRONTEND_VERSION=%FIND_CLOSEST_RELEASE(taigaio/taiga-front-dist)%"
+            rkd :boat-ci:process --commit-message="${ARG_COMMIT_MSG}"
 
-            rkd --no-ui :boat-ci:process \
-                --commit-message="${ARG_COMMIT_MSG}"
+    :build:snapshot:
+        description: Build a single version of Taiga image
+        arguments:
+            "--backend-version":
+                required: True
+            "--frontend-version":
+                required: True
+        steps: >
+            rkd :boat-ci:specific-release \
+            --app-version="${ARG_BACKEND_VERSION}" \
+            --docker-build-opts="--build-arg FRONTEND_VERSION=${ARG_FRONTEND_VERSION}" \
+            --docker-version="${ARG_BACKEND_VERSION}-SNAPSHOT" \
+            --no-push
+
+    :generate-readme:
+        description: Before commiting, please regenerate the README.md from template
+        steps: rkd :docker:generate-readme -f ./Dockerfile -rt ./README.md.j2 --target-path ./README.md

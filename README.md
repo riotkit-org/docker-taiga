@@ -88,173 +88,17 @@ List of all environment variables that could be used.
 
 - DEBIAN_FRONTEND # (default: noninteractive)
 
-# Set to "c" for English, pl-PL.UTF-8 for Polish etc.
-- LANG # (default: c)
-
-# Set to "c" for English, pl-PL.UTF-8 for Polish etc.
-- LC_TYPE # (default: en_US.UTF-8)
-
-# Enable mail server
-- TAIGA_ENABLE_EMAIL # (default: False)
-
-# Use TLS encryption when sending mails
-- TAIGA_EMAIL_USE_TLS # (default: true)
-
-# SMTP server host
-- TAIGA_EMAIL_HOST # (default: smtp)
-
-# SMTP server port
-- TAIGA_EMAIL_PORT # (default: 25)
-
-# SMTP user login
-- TAIGA_EMAIL_USER # (default: taiga@riotkit.org)
-
-# SMTP user password
-- TAIGA_EMAIL_PASS # (default: some-password)
-
-# SMTP "From" header value
-- TAIGA_EMAIL_FROM # (default: taiga@localhost)
-
-# Queue connection string
-- TAIGA_BROKER_URL # (default: amqp://guest:guest@rabbit:5672)
-
-# Redis url
-- TAIGA_REDIS_URL # (default: "redis://redis:6379/0")
-
-# Default locale ex. en, pl
-- TAIGA_DEFAULT_LOCALE # (default: en)
-
-# !!! Secret key, please change it with your own
-- TAIGA_SECRET_KEY # (default: REPLACE-ME-j1598u1J^U*(y251u98u51u5981urf98u2o5uvoiiuzhlit3))
-
-# PostgreSQL database name
-- TAIGA_DB_NAME # (default: taiga)
-
-# PostgreSQL database hostname
-- TAIGA_DB_HOST # (default: postgres)
-
-# PostgreSQL database user login
-- TAIGA_DB_USER # (default: taiga)
-
-# PostgreSQL database user password
-- TAIGA_DB_PASSWORD # (default: )
-
-# Protocol http or https your instance will listen on
-- TAIGA_SCHEME # (default: http)
-
-# Enable or disable events?
-- TAIGA_ENABLE_EVENTS # (default: false)
-
-# Hostname for events server
-- TAIGA_EVENTS_HOST # (default: events)
-
-# Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
-- TAIGA_HOSTNAME # (default: localhost)
-
-# Set to `true` to enable the LDAP authentication.
-- TAIGA_LDAP # (default: false)
-
-# The LDAP server URL.
-- LDAP_SERVER # (default: "")
-
-# The port to connect to the LDAP server on.
-- LDAP_PORT # (default: 0)
-
-# Set to `true` to enable StartTLS when connecting to the server.
-- LDAP_START_TLS # (default: "false")
-
-# The DN to bind to the LDAP server with. If left blank the client will attempt to bind anonymously.
-- LDAP_BIND_DN # (default: "")
-
-# The password for the bind DN.
-- LDAP_BIND_PASSWORD # (default: "")
-
-# The root of the LDAP structure in which to search for user accounts.
-- LDAP_SEARCH_BASE # (default: "")
-
-# Additional filter added to the user account query.
-- LDAP_SEARCH_FILTER_ADDITIONAL # (default: "")
-
-# The LDAP attribute that will be used for the account's Taiga username.
-- LDAP_USERNAME_ATTRIBUTE # (default: "uid")
-
-# The LDAP attribute that will be used for the account's Email address.
-- LDAP_EMAIL_ATTRIBUTE # (default: "mail")
-
-# The LDAP attribute that will be used for the account's full name.
-- LDAP_FULL_NAME_ATTRIBUTE # (default: "cn")
-
-# The fallback authentication method to use if LDAP fails. This will allows users to login with either an LDAP account or a local account. Set to a blank string to prevent logging in with anything other than LDAP.
-- LDAP_FALLBACK # (default: "normal")
-
-# Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
-- LDAP_SAVE_LOGIN_PASSWORD # (default: "true")
-
-# Enable the GitHub project importer
-- TAIGA_IMPORTER_GITHUB_ENABLED # (default: "false")
-
-# GitHub importer client ID
-- TAIGA_IMPORTER_GITHUB_CLIENT_ID # (default: "")
-
-# GitHub importer client secret
-- TAIGA_IMPORTER_GITHUB_CLIENT_SECRET # (default: "")
-
-# Enable the Trello project importer
-- TAIGA_IMPORTER_TRELLO_ENABLED # (default: "false")
-
-# Trello importer api key
-- TAIGA_IMPORTER_TRELLO_API_KEY # (default: "")
-
-# Trello importer secret key
-- TAIGA_IMPORTER_TRELLO_SECRET_KEY # (default: "")
-
-# Enable the JIRA project importer
-- TAIGA_IMPORTER_JIRA_ENABLED # (default: "false")
-
-# JIRA importer consumer key
-- TAIGA_IMPORTER_JIRA_CONSUMER_KEY # (default: "")
-
-# JIRA importer cert
-- TAIGA_IMPORTER_JIRA_CERT # (default: "")
-
-# JIRA importer public cert
-- TAIGA_IMPORTER_JIRA_PUB_CERT # (default: "")
-
-# Enable the Asana project importer
-- TAIGA_IMPORTER_ASANA_ENABLED # (default: "false")
-
-# Override callback URL for Asana importer. Will be automatically set based on Taiga URL if left blank.
-- TAIGA_IMPORTER_ASANA_CALLBACK_URL # (default: "")
-
-# Asana importer app ID
-- TAIGA_IMPORTER_ASANA_APP_ID # (default: "")
-
-# Asana importer app secret
-- TAIGA_IMPORTER_ASANA_APP_SECRET # (default: "")
-
 
 - DEBUG # (default: false)
 
-# Default container user id
-- TAIGA_UID # (default: 1000)
-
-# Default container group id
-- TAIGA_GID # (default: 1000)
-
-# List of plugins to enable eg. "slack, other, other" or just "slack"
-- TAIGA_PLUGINS # (default: "")
-
-# Interval (in seconds) for a background task that sends mails
-- MAIL_NOTIFICATIONS_SEND_EVERY # (default: 120)
-
-# The number of worker processes for handling requests
-- GUNICORN_WORKERS # (default: 4)
+# The maximum number of pending connections
+- GUNICORN_BACKLOG # (default: 2048)
 
 # Workers silent for more than this many seconds are killed and restarted
 - GUNICORN_TIMEOUT # (default: 60)
 
-# The number of worker threads for handling requests
-- GUNICORN_WORKER_THREADS # (default: 1)
+# The number of worker processes for handling requests
+- GUNICORN_WORKERS # (default: 4)
 
 # The maximum number of simultaneous clients
 - GUNICORN_WORKER_CONNECTIONS # (default: 1000)
@@ -262,14 +106,171 @@ List of all environment variables that could be used.
 # The maximum number of requests a worker will process before restarting
 - GUNICORN_WORKER_MAX_REQUESTS # (default: 3000)
 
+# The number of worker threads for handling requests
+- GUNICORN_WORKER_THREADS # (default: 1)
+
 # The granularity of Error log outputs
 - GUNICRON_LOG_LEVEL # (default: info)
 
-# The maximum number of pending connections
-- GUNICORN_BACKLOG # (default: 2048)
+# Set to "c" for English, pl-PL.UTF-8 for Polish etc.
+- LANG # (default: c)
+
+# Set to "c" for English, pl-PL.UTF-8 for Polish etc.
+- LC_TYPE # (default: en_US.UTF-8)
+
+# The DN to bind to the LDAP server with. If left blank the client will attempt to bind anonymously.
+- LDAP_BIND_DN # (default: "")
+
+# The password for the bind DN.
+- LDAP_BIND_PASSWORD # (default: "")
+
+# The LDAP attribute that will be used for the account's Email address.
+- LDAP_EMAIL_ATTRIBUTE # (default: "mail")
+
+# The fallback authentication method to use if LDAP fails. This will allows users to login with either an LDAP account or a local account. Set to a blank string to prevent logging in with anything other than LDAP.
+- LDAP_FALLBACK # (default: "normal")
+
+# The LDAP attribute that will be used for the account's full name.
+- LDAP_FULL_NAME_ATTRIBUTE # (default: "cn")
+
+# The port to connect to the LDAP server on.
+- LDAP_PORT # (default: 0)
+
+# Whether or not to save the LDAP password in the local database. If `LDAP_FALLBACK` is set to `normal` this will allow users that have logged in with LDAP before to login even if the LDAP server is unavailable.
+- LDAP_SAVE_LOGIN_PASSWORD # (default: "true")
+
+# The root of the LDAP structure in which to search for user accounts.
+- LDAP_SEARCH_BASE # (default: "")
+
+# Additional filter added to the user account query.
+- LDAP_SEARCH_FILTER_ADDITIONAL # (default: "")
+
+# The LDAP server URL.
+- LDAP_SERVER # (default: "")
+
+# Set to `true` to enable StartTLS when connecting to the server.
+- LDAP_START_TLS # (default: "false")
+
+# The LDAP attribute that will be used for the account's Taiga username.
+- LDAP_USERNAME_ATTRIBUTE # (default: "uid")
+
+# Interval (in seconds) for a background task that sends mails
+- MAIL_NOTIFICATIONS_SEND_EVERY # (default: 120)
+
+# Queue connection string
+- TAIGA_BROKER_URL # (default: amqp://guest:guest@rabbit:5672)
+
+# PostgreSQL database hostname
+- TAIGA_DB_HOST # (default: postgres)
+
+# PostgreSQL database name
+- TAIGA_DB_NAME # (default: taiga)
+
+# PostgreSQL database user password
+- TAIGA_DB_PASSWORD # (default: )
+
+# PostgreSQL database user login
+- TAIGA_DB_USER # (default: taiga)
+
+# Default locale ex. en, pl
+- TAIGA_DEFAULT_LOCALE # (default: en)
+
+# SMTP "From" header value
+- TAIGA_EMAIL_FROM # (default: taiga@localhost)
+
+# SMTP server host
+- TAIGA_EMAIL_HOST # (default: smtp)
+
+# SMTP user password
+- TAIGA_EMAIL_PASS # (default: some-password)
+
+# SMTP server port
+- TAIGA_EMAIL_PORT # (default: 25)
+
+# SMTP user login
+- TAIGA_EMAIL_USER # (default: taiga@riotkit.org)
+
+# Use TLS encryption when sending mails
+- TAIGA_EMAIL_USE_TLS # (default: true)
+
+# Enable mail server
+- TAIGA_ENABLE_EMAIL # (default: False)
+
+# Enable or disable events?
+- TAIGA_ENABLE_EVENTS # (default: false)
 
 # Enable or not the webhooks
-- TAIGA_ENABLE_WEBHOOKS # (default: false)
+- TAIGA_ENABLE_WEBHOOKS # (default: False)
+
+# Hostname for events server
+- TAIGA_EVENTS_HOST # (default: events)
+
+# Default container group id
+- TAIGA_GID # (default: 1000)
+
+# Hostname of your instance (domain ex. riotkit.org or subdomain - board.riotkit.org)
+- TAIGA_HOSTNAME # (default: localhost)
+
+# Asana importer app ID
+- TAIGA_IMPORTER_ASANA_APP_ID # (default: "")
+
+# Asana importer app secret
+- TAIGA_IMPORTER_ASANA_APP_SECRET # (default: "")
+
+# Override callback URL for Asana importer. Will be automatically set based on Taiga URL if left blank.
+- TAIGA_IMPORTER_ASANA_CALLBACK_URL # (default: "")
+
+# Enable the Asana project importer
+- TAIGA_IMPORTER_ASANA_ENABLED # (default: "false")
+
+# GitHub importer client ID
+- TAIGA_IMPORTER_GITHUB_CLIENT_ID # (default: "")
+
+# GitHub importer client secret
+- TAIGA_IMPORTER_GITHUB_CLIENT_SECRET # (default: "")
+
+# Enable the GitHub project importer
+- TAIGA_IMPORTER_GITHUB_ENABLED # (default: "false")
+
+# JIRA importer cert
+- TAIGA_IMPORTER_JIRA_CERT # (default: "")
+
+# JIRA importer consumer key
+- TAIGA_IMPORTER_JIRA_CONSUMER_KEY # (default: "")
+
+# Enable the JIRA project importer
+- TAIGA_IMPORTER_JIRA_ENABLED # (default: "false")
+
+# JIRA importer public cert
+- TAIGA_IMPORTER_JIRA_PUB_CERT # (default: "")
+
+# Trello importer api key
+- TAIGA_IMPORTER_TRELLO_API_KEY # (default: "")
+
+# Enable the Trello project importer
+- TAIGA_IMPORTER_TRELLO_ENABLED # (default: "false")
+
+# Trello importer secret key
+- TAIGA_IMPORTER_TRELLO_SECRET_KEY # (default: "")
+
+# Set to `true` to enable the LDAP authentication.
+- TAIGA_LDAP # (default: false)
+
+# List of plugins to enable eg. "slack, other, other" or just "slack"
+- TAIGA_PLUGINS # (default: "")
+
+# Redis url
+- TAIGA_REDIS_URL # (default: "redis://redis:6379/0")
+
+# Protocol http or https your instance will listen on
+- TAIGA_SCHEME # (default: http)
+
+# !!! Secret key, please change it with your own
+- TAIGA_SECRET_KEY # (default: REPLACE-ME-j1598u1J^U*(y251u98u51u5981urf98u2o5uvoiiuzhlit3))
+
+# Default container user id
+- TAIGA_UID # (default: 1000)
+
 
 ```
 
