@@ -12,4 +12,5 @@ before_script:
 
 script:
     # RiotKit Do is installed by Travis from requirements.txt file
+    - cp .env.dist .env
     - rkd :build-all-versions --commit-msg="$TRAVIS_COMMIT_MESSAGE"
