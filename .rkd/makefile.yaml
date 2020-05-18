@@ -8,6 +8,11 @@ imports:
 env_files:
     - env/build-settings.env
 
+environment:
+    ENV_NAME: "taiga"
+    COMPOSE_CMD: 'docker-compose -p ${ENV_NAME}'
+    SUDO: "sudo -E"
+
 tasks:
     :build-all-versions:
         description: Build all versions of Taiga
@@ -34,3 +39,37 @@ tasks:
     :generate-readme:
         description: Before commiting, please regenerate the README.md from template
         steps: rkd :docker:generate-readme -f ./Dockerfile -rt ./README.md.j2 --target-path ./README.md
+
+    :prepare-env:
+        description: Make sure the .env is there
+        steps: test -f .env || cp .env.dist .env
+
+    :start:
+        description: Start the environment
+        env_files:
+            - .env
+        steps: set -x; VERSION="${VERSION}" ${SUDO} ${COMPOSE_CMD} up -d
+
+    :delete_environment:
+        description: Delete all data, including postgres data and uploads (DANGEROUS)
+        env_files:
+            - .env
+        steps:
+            - ${SUDO} docker volume rm ${ENV_NAME}_postgres || true
+            - ${SUDO} docker volume rm ${ENV_NAME}_media || true
+            - ${SUDO} ${COMPOSE_CMD} rm -f
+
+    :clear:
+        description: Remove all volumes and containers (DANGEROUS)
+        env_files:
+            - .env
+        steps:
+            - set -x; VERSION=${VERSION} ${SUDO} ${COMPOSE_CMD} down -v
+            - set -x; VERSION=${VERSION} ${SUDO} ${COMPOSE_CMD} rm -s -f -v
+
+    :shell:
+        description: Get into the container's shell
+        steps: |
+            #!python
+            import subprocess
+            subprocess.call("set -x; eval \"${SUDO} ${COMPOSE_CMD} exec taiga bash\"", shell=True, env=os.environ)

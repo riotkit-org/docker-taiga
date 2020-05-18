@@ -61,12 +61,20 @@ sudo docker run \
 git clone https://github.com/riotkit-org/docker-taiga.git
 cd docker-taiga
 
-# configure the environment
-cp .env.dist .env
+# prepare the environment
+virtualenv .venv
+source .venv/bin/activate
+pip install -r ./requirements.txt
+
+# optionally if you do not have docker-compose
+# pip install docker-compose
+
+# edit configuration
+rkd :prepare-env
 edit .env
 
 # start it!
-make start
+rkd :start
 
 # tadam...
 ```
@@ -96,13 +104,7 @@ Building images
 
 ```
 # to build a 4.2.5 version of backend and frontend
-make build_image VERSION=4.2.5
-
-# to build backend v4.2.5 and frontend v4.1.5
-make build_image VERSION=4.2.5 VERSION_FRONT=4.2.4-stable
-
-# will build and tag under some-image:4.2.5
-make build_image VERSION=4.2.5 IMAGE=some-image
+rkd :build:snapshot --backend-version=4.2.5 --frontend-version=4.2.5-stable
 ```
 
 Troubleshooting
@@ -136,10 +138,9 @@ Sorry, you cannot. The application itself does not support it. See https://githu
 Developing the container
 ------------------------
 
-- The container is built on quay.io and hub.docker com
-- When you start working on it locally, at first run `make dev@develop` to install git hooks
-- README.md is automatically generated from README.md.j2, do not edit the generated version!
-- Use `make` for building, pushing, etc.
+- The container is built on quay.io
+- When you start working on it locally, please before commiting do the `rkd :generate-readme` (pull requests should be rejected, when something was added only to README.md, not to README.j2, and when environment variables were added to Dockerfile but README file was not generated)
+- Use `rkd` for building, pushing, etc.
 
 Releasing
 ---------
