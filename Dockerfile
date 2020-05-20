@@ -128,12 +128,20 @@ ENV DEBIAN_FRONTEND=noninteractive \
     # The maximum number of pending connections
     GUNICORN_BACKLOG=2048 \
     # Enable or not the webhooks
-    TAIGA_ENABLE_WEBHOOKS=False
+    TAIGA_ENABLE_WEBHOOKS=False \
+    RKD_PATH="/opt/rkd/.rkd"
 
+COPY container-files/opt/rkd /opt/rkd
 COPY bin/plugins/plugin-manager.py /opt/riotkit/bin/
 COPY bin/cron/send-mail-notifications.sh /opt/riotkit/bin/
 COPY bin/taiga/launch-gunicorn.sh /opt/riotkit/bin/
 COPY plugins /usr/src/taiga-plugins
+
+#
+# Setup RKD
+#
+RUN pip install -r /opt/rkd/requirements.txt \
+    && rkd :tasks
 
 # install dependencies
 # download and unpack applications in selected versions
@@ -141,7 +149,7 @@ COPY plugins /usr/src/taiga-plugins
 # clean up
 RUN set -x \
     && apt-get update \
-    && apt-get install -y --no-install-recommends locales gettext ca-certificates nginx libcap2-bin supervisor wget curl subversion \
+    && apt-get install -y --no-install-recommends locales gettext ca-certificates nginx libcap2-bin supervisor wget curl subversion postgresql-client \
     && apt-get clean \
     \
     && echo "LANG=en_US.UTF-8" > /etc/default/locale \
@@ -181,10 +189,9 @@ RUN set -x \
 RUN echo "CipherString=DEFAULT@SECLEVEL=1" >> /etc/ssl/openssl.cnf
 
 # copy configs and scripts
-COPY conf /opt/taiga-conf
-COPY checkdb.py /checkdb.py
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-COPY supervisor.conf /etc/supervisord.conf
+COPY container-files/opt/taiga-conf /opt/taiga-conf
+COPY container-files/docker-entrypoint.sh /docker-entrypoint.sh
+COPY container-files/etc/supervisor.conf /etc/supervisord.conf
 
 # configure
 RUN cp /opt/taiga-conf/taiga/local.py /usr/src/taiga-back/settings/local.py \

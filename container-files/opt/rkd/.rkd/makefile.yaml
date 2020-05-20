@@ -1,0 +1,5 @@
+version: org.riotkit.rkd/0.3
+imports:
+    - rkt_utils.db.WaitForDatabaseTask
+tasks: {}
+

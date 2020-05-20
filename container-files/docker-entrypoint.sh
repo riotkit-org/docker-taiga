@@ -58,7 +58,7 @@ migrate() {
         echo "Running database check"
 
         set +e
-        python /checkdb.py
+        rkd :db:wait-for --host="${TAIGA_DB_HOST}" --username="${TAIGA_DB_USER}" --password="${TAIGA_DB_PASSWORD}" --port 5432 --timeout 120 --db-name="${TAIGA_DB_NAME}" --type=postgres
         DB_CHECK_STATUS=$?
         set -e
 
