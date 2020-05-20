@@ -3,8 +3,8 @@ MAINTAINER Benjamin Hutchins <ben@hutchins.co>
 MAINTAINER Riotkit <riotkit_org@riseup.net>
 
 # build-time arguments, use them in docker build with --build-arg switch to build different version
-ARG RKT_APP_VERSION=4.2.7
-ARG FRONTEND_VERSION=4.2.7-stable
+ARG RKT_APP_VERSION=UNKNOWN
+ARG FRONTEND_VERSION=UNKNOWN
 
 # runtime arguments
 ENV DEBIAN_FRONTEND=noninteractive \
