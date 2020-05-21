@@ -1,2 +1,2 @@
 rkd==0.5.0.0a1
-rkt-ciutils>=3.0.0.dev3
+rkt-ciutils>=3.0.2.0a1
