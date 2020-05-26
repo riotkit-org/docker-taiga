@@ -1,6 +1,5 @@
 version: org.riotkit.rkd/0.3
 imports:
-    - rkd.standardlib.python
     - rkd.standardlib.docker
     - rkt_ciutils.boatci
     - rkt_ciutils.docker
