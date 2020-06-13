@@ -1,4 +1,4 @@
-version: org.riotkit.rkd/0.3
+version: org.riotkit.rkd/1.0
 imports:
     - rkd.standardlib.docker
     - rkt_ciutils.boatci
