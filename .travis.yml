@@ -1,6 +1,7 @@
 language: python
 if: branch = master or tag IS present
-python: 3.6
+python: 3.7
+dist: bionic
 services:
     - docker
 
