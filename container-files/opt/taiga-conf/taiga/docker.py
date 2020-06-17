@@ -32,7 +32,7 @@ if os.getenv('TAIGA_REDIS_URL', '') and os.getenv('TAIGA_BROKER_URL', '') \
 
     BROKER_URL = os.getenv('TAIGA_BROKER_URL', 'amqp://guest:guest@rabbit:5672')
     CELERY_RESULT_BACKEND = os.getenv('TAIGA_REDIS_URL', 'redis://redis:6379/0').replace('"', '')
-    CELERY_ENABLED = True
+    CELERY_ENABLED = os.getenv('CELERY_ENABLED').lower() == 'true'
 
     EVENTS_PUSH_BACKEND = "taiga.events.backends.rabbitmq.EventsPushBackend"
     EVENTS_PUSH_BACKEND_OPTIONS = {"url": BROKER_URL}

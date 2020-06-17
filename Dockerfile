@@ -32,6 +32,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TAIGA_BROKER_URL=amqp://guest:guest@rabbit:5672 \
     # Redis url
     TAIGA_REDIS_URL="redis://redis:6379/0" \
+    # Enables Celery support
+    CELERY_ENABLED=false \
+    # Serializer type supported by Taiga at Celery
+    CELERY_SERIALIZER_TYPE=pickle \
     # Default locale ex. en, pl
     TAIGA_DEFAULT_LOCALE=en \
     # !!! Secret key, please change it with your own
