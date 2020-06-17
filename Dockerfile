@@ -9,7 +9,9 @@ ARG FRONTEND_VERSION=UNKNOWN
 # runtime arguments
 ENV DEBIAN_FRONTEND=noninteractive \
     # Set to "c" for English, pl-PL.UTF-8 for Polish etc.
-    LANG=c \
+    LANG=en_US.UTF-8 \
+    # Timezone
+    TZ="Europe/Warsaw" \
     # Set to "c" for English, pl-PL.UTF-8 for Polish etc.
     LC_TYPE=en_US.UTF-8 \
     # Enable mail server
