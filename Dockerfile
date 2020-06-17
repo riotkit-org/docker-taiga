@@ -1,4 +1,4 @@
-FROM python:3.6-slim
+FROM python:3.7-slim
 MAINTAINER Benjamin Hutchins <ben@hutchins.co>
 MAINTAINER Riotkit <riotkit_org@riseup.net>
 
