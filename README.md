@@ -93,6 +93,12 @@ LDAP support can optionally be enabled by setting the `TAIGA_LDAP` environment v
 List of all environment variables that could be used.
 
 ```yaml
+# Enables Celery support
+- CELERY_ENABLED # (default: false)
+
+# Serializer type supported by Taiga at Celery
+- CELERY_SERIALIZER_TYPE # (default: pickle)
+
 
 - DEBIAN_FRONTEND # (default: noninteractive)
 
@@ -121,7 +127,7 @@ List of all environment variables that could be used.
 - GUNICRON_LOG_LEVEL # (default: info)
 
 # Set to "c" for English, pl-PL.UTF-8 for Polish etc.
-- LANG # (default: c)
+- LANG # (default: en_US.UTF-8)
 
 # Set to "c" for English, pl-PL.UTF-8 for Polish etc.
 - LC_TYPE # (default: en_US.UTF-8)
@@ -281,6 +287,9 @@ List of all environment variables that could be used.
 
 # Default container user id
 - TAIGA_UID # (default: 1000)
+
+# Timezone
+- TZ # (default: "Europe/Warsaw")
 
 
 ```
