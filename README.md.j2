@@ -135,6 +135,12 @@ supervisorctl tail -f nginx stderr
 
 Sorry, you cannot. The application itself does not support it. See https://github.com/riotkit-org/docker-taiga/issues/32
 
+5. Running under custom port eg. 8002
+
+Taiga's frontend requires a fixed url to be defined in a configuration file, the container is doing this on start - you only need to append port to `TAIGA_HOSTNAME` variable.
+
+Example: `TAIGA_HOSTNAME=taiga.localhost:8002` (see: [#41](https://github.com/riotkit-org/docker-taiga/issues/41))
+
 Developing the container
 ------------------------
 
