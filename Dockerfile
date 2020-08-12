@@ -202,6 +202,7 @@ COPY container-files/etc/supervisor.conf /etc/supervisord.conf
 # configure
 RUN cp /opt/taiga-conf/taiga/local.py /usr/src/taiga-back/settings/local.py \
     && cp /opt/taiga-conf/taiga/docker.py /usr/src/taiga-back/settings/docker.py \
+    && cp /opt/taiga-conf/taiga/celery.py /usr/src/taiga-back/settings/celery.py \
     && j2 /opt/taiga-conf/locale.gen.j2 > /etc/locale.gen \
     \
     # NOTICE: In case that "collectstatic" would not be found, it means in Django that the Taiga was not loaded
