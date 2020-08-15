@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 from kombu import Queue
 
 broker_url = os.getenv('TAIGA_BROKER_URL', 'amqp://guest:guest@rabbit:5672')
