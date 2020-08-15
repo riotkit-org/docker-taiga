@@ -1,6 +1,6 @@
-version: org.riotkit.rkd/1.0
+version: org.riotkit.rkd/yaml/v1
 imports:
-    - rkd.standardlib.docker
+    - rkt_utils.docker
     - rkt_ciutils.boatci
     - rkt_ciutils.docker
 

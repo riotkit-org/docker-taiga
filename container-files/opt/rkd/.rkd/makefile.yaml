@@ -1,4 +1,4 @@
-version: org.riotkit.rkd/1.1.0
+version: org.riotkit.rkd/yaml/v1
 imports:
     - rkt_utils.db.WaitForDatabaseTask
 tasks: {}
