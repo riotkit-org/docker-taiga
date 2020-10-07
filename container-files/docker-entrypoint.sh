@@ -85,11 +85,7 @@ migrate() {
         fi
       done
 
-    # Look for static folder, if it does not exist, then generate it
-    if [ ! -d "/usr/src/taiga-back/static" ]; then
-        python manage.py collectstatic --noinput
-    fi
-
+    python manage.py migrate --noinput
     /opt/riotkit/bin/plugin-manager.py after-migrations
 }
 
